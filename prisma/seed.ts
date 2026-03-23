@@ -28,7 +28,7 @@ async function main() {
         create: [
           { platform: "github", url: "https://github.com/sakuya10969", sortOrder: 1 },
           { platform: "twitter", url: "https://twitter.com", sortOrder: 2 },
-          { platform: "linkedin", url: "https://linkedin.com", sortOrder: 3 },
+          { platform: "linkedin", url: "https://www.linkedin.com/in/sakuya-fukuda-07858a329/", sortOrder: 3 },
         ],
       },
     },
