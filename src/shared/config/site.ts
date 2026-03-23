@@ -1,0 +1,12 @@
+export const SITE_NAME = "Portfolio";
+export const SITE_DESCRIPTION = "Full-stack developer portfolio showcasing projects, skills, and experience.";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+export const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/projects", label: "Projects" },
+  { href: "/skills", label: "Skills" },
+  { href: "/experience", label: "Experience" },
+  { href: "/contact", label: "Contact" },
+] as const;
