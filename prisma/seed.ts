@@ -40,11 +40,10 @@ async function main() {
   const technologies = await Promise.all([
     // Languages
     prisma.technology.create({ data: { name: "TypeScript", sortOrder: 1 } }),
-    prisma.technology.create({ data: { name: "JavaScript", sortOrder: 2 } }),
-    prisma.technology.create({ data: { name: "Python", sortOrder: 3 } }),
-    prisma.technology.create({ data: { name: "PHP", sortOrder: 4 } }),
-    prisma.technology.create({ data: { name: "Go", sortOrder: 5 } }),
-    prisma.technology.create({ data: { name: "SQL", sortOrder: 6 } }),
+    prisma.technology.create({ data: { name: "Python", sortOrder: 2 } }),
+    prisma.technology.create({ data: { name: "PHP", sortOrder: 3 } }),
+    prisma.technology.create({ data: { name: "Go", sortOrder: 4 } }),
+    prisma.technology.create({ data: { name: "SQL", sortOrder: 5 } }),
     // Frontend
     prisma.technology.create({ data: { name: "React", sortOrder: 10 } }),
     prisma.technology.create({ data: { name: "Next.js", sortOrder: 11 } }),
@@ -378,11 +377,10 @@ async function main() {
     data: [
       // 言語
       { name: "TypeScript", categoryId: langCat.id, technologyId: techMap["TypeScript"].id, proficiency: "advanced", sortOrder: 1 },
-      { name: "JavaScript", categoryId: langCat.id, technologyId: techMap["JavaScript"].id, proficiency: "advanced", sortOrder: 2 },
-      { name: "Python", categoryId: langCat.id, technologyId: techMap["Python"].id, proficiency: "advanced", sortOrder: 3 },
-      { name: "PHP", categoryId: langCat.id, technologyId: techMap["PHP"].id, proficiency: "intermediate", sortOrder: 4 },
-      { name: "Go", categoryId: langCat.id, technologyId: techMap["Go"].id, proficiency: "intermediate", sortOrder: 5 },
-      { name: "SQL", categoryId: langCat.id, technologyId: techMap["SQL"].id, proficiency: "advanced", sortOrder: 6 },
+      { name: "Python", categoryId: langCat.id, technologyId: techMap["Python"].id, proficiency: "advanced", sortOrder: 2 },
+      { name: "PHP", categoryId: langCat.id, technologyId: techMap["PHP"].id, proficiency: "intermediate", sortOrder: 3 },
+      { name: "Go", categoryId: langCat.id, technologyId: techMap["Go"].id, proficiency: "intermediate", sortOrder: 4 },
+      { name: "SQL", categoryId: langCat.id, technologyId: techMap["SQL"].id, proficiency: "advanced", sortOrder: 5 },
       // フロントエンド
       { name: "React", categoryId: frontendCat.id, technologyId: techMap["React"].id, proficiency: "advanced", sortOrder: 1 },
       { name: "Next.js", categoryId: frontendCat.id, technologyId: techMap["Next.js"].id, proficiency: "advanced", sortOrder: 2 },
@@ -442,7 +440,7 @@ async function main() {
         organization: "株式会社KIYONO",
         role: "バックエンドエンジニア",
         description:
-          "自社 CDP（カスタマーデータプラットフォーム）の新規機能開発を担当。Django と PostgreSQL を用いたバックエンド実装に加え、Google Cloud（Cloud Storage、Firestore、BigQuery）を活用したデータ基盤の構築を行った。",
+          "自社 CDP（カスタマーデータプラットフォーム）の新規機能開発を担当。Django と PostgreSQL を用いたバックエンド実装に加え、Google Cloud（Cloud Storage、Datastore、BigQuery）を活用したデータ基盤の構築を行った。",
         startDate: new Date("2024-06-01"),
         endDate: new Date("2024-09-30"),
         sortOrder: 2,
