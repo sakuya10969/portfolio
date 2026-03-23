@@ -1,1 +1,1 @@
-export { SkillSection } from "./ui/skill-section";
+export { SkillSection } from './ui/skill-section';

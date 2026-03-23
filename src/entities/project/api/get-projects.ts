@@ -1,5 +1,5 @@
-import { prisma } from "@/shared/lib/prisma";
-import type { Project, ProjectFilter } from "../model/types";
+import { prisma } from '@/shared/lib/prisma';
+import type { Project, ProjectFilter } from '../model/types';
 
 export async function getProjects(filter?: ProjectFilter): Promise<Project[]> {
   const projects = await prisma.project.findMany({
@@ -16,13 +16,13 @@ export async function getProjects(filter?: ProjectFilter): Promise<Project[]> {
     },
     include: {
       category: true,
-      links: { orderBy: { sortOrder: "asc" } },
+      links: { orderBy: { sortOrder: 'asc' } },
       technologies: {
         include: { technology: true },
-        orderBy: { technology: { sortOrder: "asc" } },
+        orderBy: { technology: { sortOrder: 'asc' } },
       },
     },
-    orderBy: { sortOrder: "asc" },
+    orderBy: { sortOrder: 'asc' },
   });
 
   return projects.map((p) => ({
@@ -36,10 +36,10 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
     where: { slug, isPublished: true },
     include: {
       category: true,
-      links: { orderBy: { sortOrder: "asc" } },
+      links: { orderBy: { sortOrder: 'asc' } },
       technologies: {
         include: { technology: true },
-        orderBy: { technology: { sortOrder: "asc" } },
+        orderBy: { technology: { sortOrder: 'asc' } },
       },
     },
   });

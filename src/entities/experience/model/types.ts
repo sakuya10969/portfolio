@@ -1,6 +1,6 @@
 export type Experience = {
   id: string;
-  type: "work" | "education" | "activity";
+  type: 'work' | 'education' | 'activity';
   organization: string;
   role: string;
   description: string;

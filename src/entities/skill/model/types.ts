@@ -9,7 +9,7 @@ export type SkillCategory = {
 export type Skill = {
   id: string;
   name: string;
-  proficiency: "beginner" | "intermediate" | "advanced" | "expert" | null;
+  proficiency: 'beginner' | 'intermediate' | 'advanced' | 'expert' | null;
   sortOrder: number;
   technology: {
     id: string;

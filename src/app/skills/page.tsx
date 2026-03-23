@@ -1,4 +1,4 @@
-import { SkillsPage } from "@/pages/skills";
+import { SkillsPage } from '@/pages/skills';
 
 export default function Page() {
   return <SkillsPage />;

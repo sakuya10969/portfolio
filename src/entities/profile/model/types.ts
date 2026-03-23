@@ -9,7 +9,7 @@ export type Profile = {
 
 export type SocialLink = {
   id: string;
-  platform: "github" | "twitter" | "linkedin" | "website" | "other";
+  platform: 'github' | 'twitter' | 'linkedin' | 'website' | 'other';
   url: string;
   sortOrder: number;
 };

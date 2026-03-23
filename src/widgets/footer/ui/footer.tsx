@@ -1,13 +1,13 @@
-import Link from "next/link";
-import { Github, Twitter, Linkedin } from "lucide-react";
-import { SITE_NAME } from "@/shared/config/site";
+import Link from 'next/link';
+import { Github, Twitter, Linkedin } from 'lucide-react';
+import { SITE_NAME } from '@/shared/config/site';
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
+    <footer className="border-border bg-background border-t">
+      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <p className="text-muted-foreground text-sm">
             © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">

@@ -13,7 +13,7 @@ export type Technology = {
 
 export type ProjectLink = {
   id: string;
-  type: "github" | "demo" | "docs" | "other";
+  type: 'github' | 'demo' | 'docs' | 'other';
   url: string;
   label: string | null;
   sortOrder: number;

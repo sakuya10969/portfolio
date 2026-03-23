@@ -1,4 +1,4 @@
-import { z } from "zod/v3";
+import { z } from 'zod/v3';
 
 export const projectFilterSchema = z.object({
   category: z.string().optional(),

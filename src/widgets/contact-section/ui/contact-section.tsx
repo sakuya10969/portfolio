@@ -1,4 +1,4 @@
-import { ContactForm } from "@/features/contact-form";
+import { ContactForm } from '@/features/contact-form';
 
 export function ContactSection() {
   return (
