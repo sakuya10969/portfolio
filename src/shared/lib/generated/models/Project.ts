@@ -248,7 +248,7 @@ export type ProjectGroupByOutputType = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork: string | null
   thumbnailUrl: string | null
   isPublished: boolean
   sortOrder: number
@@ -289,7 +289,7 @@ export type ProjectWhereInput = {
   architecture?: Prisma.StringFilter<"Project"> | string
   highlights?: Prisma.StringFilter<"Project"> | string
   challenges?: Prisma.StringFilter<"Project"> | string
-  futureWork?: Prisma.StringFilter<"Project"> | string
+  futureWork?: Prisma.StringNullableFilter<"Project"> | string | null
   thumbnailUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   isPublished?: Prisma.BoolFilter<"Project"> | boolean
   sortOrder?: Prisma.IntFilter<"Project"> | number
@@ -310,7 +310,7 @@ export type ProjectOrderByWithRelationInput = {
   architecture?: Prisma.SortOrder
   highlights?: Prisma.SortOrder
   challenges?: Prisma.SortOrder
-  futureWork?: Prisma.SortOrder
+  futureWork?: Prisma.SortOrderInput | Prisma.SortOrder
   thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -334,7 +334,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   architecture?: Prisma.StringFilter<"Project"> | string
   highlights?: Prisma.StringFilter<"Project"> | string
   challenges?: Prisma.StringFilter<"Project"> | string
-  futureWork?: Prisma.StringFilter<"Project"> | string
+  futureWork?: Prisma.StringNullableFilter<"Project"> | string | null
   thumbnailUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   isPublished?: Prisma.BoolFilter<"Project"> | boolean
   sortOrder?: Prisma.IntFilter<"Project"> | number
@@ -355,7 +355,7 @@ export type ProjectOrderByWithAggregationInput = {
   architecture?: Prisma.SortOrder
   highlights?: Prisma.SortOrder
   challenges?: Prisma.SortOrder
-  futureWork?: Prisma.SortOrder
+  futureWork?: Prisma.SortOrderInput | Prisma.SortOrder
   thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -381,7 +381,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
   architecture?: Prisma.StringWithAggregatesFilter<"Project"> | string
   highlights?: Prisma.StringWithAggregatesFilter<"Project"> | string
   challenges?: Prisma.StringWithAggregatesFilter<"Project"> | string
-  futureWork?: Prisma.StringWithAggregatesFilter<"Project"> | string
+  futureWork?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   thumbnailUrl?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   isPublished?: Prisma.BoolWithAggregatesFilter<"Project"> | boolean
   sortOrder?: Prisma.IntWithAggregatesFilter<"Project"> | number
@@ -399,7 +399,7 @@ export type ProjectCreateInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -419,7 +419,7 @@ export type ProjectUncheckedCreateInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -439,7 +439,7 @@ export type ProjectUpdateInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -459,7 +459,7 @@ export type ProjectUncheckedUpdateInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -479,7 +479,7 @@ export type ProjectCreateManyInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -497,7 +497,7 @@ export type ProjectUpdateManyMutationInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -514,7 +514,7 @@ export type ProjectUncheckedUpdateManyInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -683,7 +683,7 @@ export type ProjectCreateWithoutCategoryInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -702,7 +702,7 @@ export type ProjectUncheckedCreateWithoutCategoryInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -750,7 +750,7 @@ export type ProjectScalarWhereInput = {
   architecture?: Prisma.StringFilter<"Project"> | string
   highlights?: Prisma.StringFilter<"Project"> | string
   challenges?: Prisma.StringFilter<"Project"> | string
-  futureWork?: Prisma.StringFilter<"Project"> | string
+  futureWork?: Prisma.StringNullableFilter<"Project"> | string | null
   thumbnailUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   isPublished?: Prisma.BoolFilter<"Project"> | boolean
   sortOrder?: Prisma.IntFilter<"Project"> | number
@@ -768,7 +768,7 @@ export type ProjectCreateWithoutLinksInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -787,7 +787,7 @@ export type ProjectUncheckedCreateWithoutLinksInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -822,7 +822,7 @@ export type ProjectUpdateWithoutLinksInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -841,7 +841,7 @@ export type ProjectUncheckedUpdateWithoutLinksInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -860,7 +860,7 @@ export type ProjectCreateWithoutTechnologiesInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -879,7 +879,7 @@ export type ProjectUncheckedCreateWithoutTechnologiesInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -914,7 +914,7 @@ export type ProjectUpdateWithoutTechnologiesInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -933,7 +933,7 @@ export type ProjectUncheckedUpdateWithoutTechnologiesInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -952,7 +952,7 @@ export type ProjectCreateManyCategoryInput = {
   architecture: string
   highlights: string
   challenges: string
-  futureWork: string
+  futureWork?: string | null
   thumbnailUrl?: string | null
   isPublished?: boolean
   sortOrder: number
@@ -969,7 +969,7 @@ export type ProjectUpdateWithoutCategoryInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -988,7 +988,7 @@ export type ProjectUncheckedUpdateWithoutCategoryInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1007,7 +1007,7 @@ export type ProjectUncheckedUpdateManyWithoutCategoryInput = {
   architecture?: Prisma.StringFieldUpdateOperationsInput | string
   highlights?: Prisma.StringFieldUpdateOperationsInput | string
   challenges?: Prisma.StringFieldUpdateOperationsInput | string
-  futureWork?: Prisma.StringFieldUpdateOperationsInput | string
+  futureWork?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1163,7 +1163,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     architecture: string
     highlights: string
     challenges: string
-    futureWork: string
+    futureWork: string | null
     thumbnailUrl: string | null
     isPublished: boolean
     sortOrder: number

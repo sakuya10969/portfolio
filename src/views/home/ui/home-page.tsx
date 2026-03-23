@@ -5,8 +5,8 @@ import { HeroSection } from '@/widgets/hero-section';
 import { getProjects } from '@/entities/project';
 import { ProjectCard } from '@/entities/project';
 import { getSkills } from '@/entities/skill';
-import { Badge } from '@/shared/ui/badge';
 import { SectionWrapper } from '@/shared/ui/section-wrapper';
+import { TechnologyBadge } from '@/shared/ui/technology-badge';
 import { Button } from '@/shared/ui/button';
 
 async function FeaturedProjects() {
@@ -53,13 +53,7 @@ async function TechOverview() {
     >
       <div className="flex flex-wrap gap-2">
         {uniqueTechs.map((tech) => (
-          <Badge
-            key={tech}
-            variant="secondary"
-            className="border-brand/15 bg-brand/5 px-3 py-1 text-sm hover:bg-brand/10 transition-colors"
-          >
-            {tech}
-          </Badge>
+          <TechnologyBadge key={tech} name={tech} size="md" />
         ))}
       </div>
       <div className="mt-6 text-center">

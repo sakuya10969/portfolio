@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
+import { TechnologyBadge } from '@/shared/ui/technology-badge';
 import type { Project } from '../model/types';
 
 type Props = {
@@ -34,11 +35,9 @@ export function ProjectCard({ project }: Props) {
               {project.summary}
             </p>
           </CardContent>
-          <CardFooter className="flex flex-wrap gap-1 pt-0">
+          <CardFooter className="flex flex-wrap gap-1.5 pt-0">
             {project.technologies.slice(0, 5).map((tech) => (
-              <Badge key={tech.id} variant="outline" className="text-xs">
-                {tech.name}
-              </Badge>
+              <TechnologyBadge key={tech.id} name={tech.name} size="sm" />
             ))}
             {project.technologies.length > 5 && (
               <Badge variant="outline" className="text-muted-foreground text-xs">
