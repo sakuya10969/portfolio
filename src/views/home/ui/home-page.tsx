@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
+import { FolderOpen, Layers, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { HeroSection } from '@/widgets/hero-section';
 import { getProjects } from '@/entities/project';
 import { ProjectCard } from '@/entities/project';
 import { getSkills } from '@/entities/skill';
 import { Badge } from '@/shared/ui/badge';
 import { SectionWrapper } from '@/shared/ui/section-wrapper';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 
 async function FeaturedProjects() {
@@ -16,7 +16,11 @@ async function FeaturedProjects() {
   if (featured.length === 0) return null;
 
   return (
-    <SectionWrapper title="注目のプロジェクト" description="最近取り組んだ代表的な作品を紹介します">
+    <SectionWrapper
+      title="注目のプロジェクト"
+      titleIcon={<FolderOpen className="h-5 w-5" />}
+      description="最近取り組んだ代表的な作品を紹介します"
+    >
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((project) => (
           <ProjectCard key={project.id} project={project} />
@@ -25,7 +29,7 @@ async function FeaturedProjects() {
       <div className="mt-8 text-center">
         <Button asChild variant="outline">
           <Link href="/projects">
-            すべてのプロジェクトを見る
+            全てのプロジェクトを見る
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
@@ -42,10 +46,18 @@ async function TechOverview() {
   const uniqueTechs = [...new Set(allTechs)].slice(0, 16);
 
   return (
-    <SectionWrapper title="技術スタック" description="日常的に使用している技術の一部です">
-      <div className="flex flex-wrap justify-center gap-2">
+    <SectionWrapper
+      title="技術スタック"
+      titleIcon={<Layers className="h-5 w-5" />}
+      description="日常的に使用している技術の一部です"
+    >
+      <div className="flex flex-wrap gap-2">
         {uniqueTechs.map((tech) => (
-          <Badge key={tech} variant="secondary" className="px-3 py-1 text-sm">
+          <Badge
+            key={tech}
+            variant="secondary"
+            className="border-brand/15 bg-brand/5 px-3 py-1 text-sm hover:bg-brand/10 transition-colors"
+          >
             {tech}
           </Badge>
         ))}

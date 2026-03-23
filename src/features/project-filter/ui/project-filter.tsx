@@ -36,7 +36,7 @@ export function ProjectFilter({ categories }: Props) {
             className="cursor-pointer"
             onClick={() => updateFilter('category', '')}
           >
-            すべて
+            全て
           </Badge>
           {categories.map((cat) => (
             <Badge

@@ -1,4 +1,4 @@
-export const SITE_NAME = 'Portfolio';
+export const SITE_NAME = "sakuya10969's Portfolio";
 export const SITE_DESCRIPTION =
   'Full-stack developer portfolio showcasing projects, skills, and experience.';
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
