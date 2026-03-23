@@ -23,7 +23,7 @@ async function main() {
     data: {
       name: "福田 朔哉",
       title: "フルスタックエンジニア",
-      bio: "TypeScript、Python、Next.js、NestJS、FastAPI、PostgreSQLを中心としたフルスタック開発が得意です。\n\nバックエンドからフロントエンドまで一貫した実装を行い、「動くもの」だけでなく「保守しやすいもの」を作ることを大切にしています。\n\nアーキテクチャ設計・コードレビュー・チーム開発の経験もあり、品質と速度のバランスを意識したエンジニアリングを実践しています。",
+      bio: "東京理科大学理学部数学科を2026年3月に卒業。\n\n 2024年から複数のスタートアップ企業でエンジニアとしてインターンを経験しており、TypeScript, Python, Next,js, NestJS, FastAPIを中心とする技術で開発を経験。\n\n アーキテクチャ設計・チーム開発の経験もあり、品質と速度のバランスを意識したエンジニアリングを実践しています。",
       socialLinks: {
         create: [
           { platform: "github", url: "https://github.com/sakuya10969", sortOrder: 1 },
@@ -66,16 +66,18 @@ async function main() {
     prisma.technology.create({ data: { name: "SQL Server", sortOrder: 32 } }),
     prisma.technology.create({ data: { name: "Prisma", sortOrder: 33 } }),
     prisma.technology.create({ data: { name: "TypeORM", sortOrder: 34 } }),
-    prisma.technology.create({ data: { name: "Alembic", sortOrder: 35 } }),
-    prisma.technology.create({ data: { name: "Redis", sortOrder: 36 } }),
+    prisma.technology.create({ data: { name: "SQLAlchemy", sortOrder: 35 } }),
+    prisma.technology.create({ data: { name: "Alembic", sortOrder: 36 } }),
     // Cloud / Infra
     prisma.technology.create({ data: { name: "AWS", sortOrder: 40 } }),
     prisma.technology.create({ data: { name: "Google Cloud", sortOrder: 41 } }),
     prisma.technology.create({ data: { name: "Microsoft Azure", sortOrder: 42 } }),
     prisma.technology.create({ data: { name: "Docker", sortOrder: 43 } }),
+    
     // Testing / Tools
     prisma.technology.create({ data: { name: "Jest", sortOrder: 50 } }),
-    prisma.technology.create({ data: { name: "Zod", sortOrder: 51 } }),
+    prisma.technology.create({ data: { name: "pytest", sortOrder: 51 } }),
+    prisma.technology.create({ data: { name: "Zod", sortOrder: 52 } }),
     // AI / ML
     prisma.technology.create({ data: { name: "YOLO", sortOrder: 60 } }),
     prisma.technology.create({ data: { name: "Microsoft Foundry AI", sortOrder: 61 } }),
@@ -117,7 +119,7 @@ async function main() {
       challenges:
         "Next.js と Laravel 間の認証連携や、学習進捗のリアルタイム同期の設計に苦労した。異なるフレームワーク間でのセッション管理の整合性確保が課題だった。",
       futureWork:
-        "リアルタイムコードエディタの導入、学習パスのパーソナライズ機能の追加を検討。",
+        "",
       isPublished: true,
       sortOrder: 1,
       categoryId: platformCat.id,
@@ -150,7 +152,7 @@ async function main() {
       challenges:
         "異なるデータストア間の整合性担保が難しかった。BigQuery のコスト最適化とクエリパフォーマンスのバランス調整にも苦労した。",
       futureWork:
-        "リアルタイムストリーミング処理の導入、ML パイプラインとの統合を検討。",
+        "",
       isPublished: true,
       sortOrder: 2,
       categoryId: platformCat.id,
@@ -216,7 +218,7 @@ async function main() {
       challenges:
         "企業向けと一般消費者向けで異なる要件を同一コードベースで管理する設計が難しかった。GraphQL のスキーマ設計とパフォーマンスチューニングにも苦労した。",
       futureWork:
-        "マイクロフロントエンド化による機能分離、E2E テストの拡充を検討。",
+        "",
       isPublished: true,
       sortOrder: 4,
       categoryId: saasDevCat.id,
@@ -253,7 +255,7 @@ async function main() {
       challenges:
         "ノーコードプラットフォーム特有の動的スキーマ管理と、ユーザーが自由に定義するデータ構造の型安全性の担保が難しかった。",
       futureWork:
-        "ワークフロー自動化機能の追加、外部サービス連携の拡充を検討。",
+        "",
       isPublished: true,
       sortOrder: 5,
       categoryId: saasDevCat.id,
@@ -288,7 +290,7 @@ async function main() {
       challenges:
         "既存コードベースのクリーンアーキテクチャへの段階的移行が難しかった。YOLO モデルの精度向上のためのデータセット作成と学習パラメータの調整にも苦労した。",
       futureWork:
-        "AI モデルの精度向上、OCR との組み合わせによるテキスト抽出、バージョン管理機能の強化を検討。",
+        "",
       isPublished: true,
       sortOrder: 6,
       categoryId: enterpriseCat.id,
@@ -402,16 +404,18 @@ async function main() {
       { name: "SQL Server", categoryId: dbCat.id, technologyId: techMap["SQL Server"].id, proficiency: "intermediate", sortOrder: 3 },
       { name: "Prisma", categoryId: dbCat.id, technologyId: techMap["Prisma"].id, proficiency: "advanced", sortOrder: 4 },
       { name: "TypeORM", categoryId: dbCat.id, technologyId: techMap["TypeORM"].id, proficiency: "intermediate", sortOrder: 5 },
-      { name: "Alembic", categoryId: dbCat.id, technologyId: techMap["Alembic"].id, proficiency: "intermediate", sortOrder: 6 },
-      { name: "Redis", categoryId: dbCat.id, technologyId: techMap["Redis"].id, proficiency: "intermediate", sortOrder: 7 },
+      { name: "SQLAlchemy", categoryId: dbCat.id, technologyId: techMap["SQLAlchemy"].id, proficiency: "intermediate", sortOrder: 6 },
+      { name: "Alembic", categoryId: dbCat.id, technologyId: techMap["Alembic"].id, proficiency: "intermediate", sortOrder: 7 },
       // クラウド / インフラ
-      { name: "AWS", categoryId: infraCat.id, technologyId: techMap["AWS"].id, proficiency: "intermediate", sortOrder: 1 },
-      { name: "Google Cloud", categoryId: infraCat.id, technologyId: techMap["Google Cloud"].id, proficiency: "intermediate", sortOrder: 2 },
-      { name: "Microsoft Azure", categoryId: infraCat.id, technologyId: techMap["Microsoft Azure"].id, proficiency: "intermediate", sortOrder: 3 },
+      { name: "AWS", categoryId: infraCat.id, technologyId: techMap["AWS"].id, proficiency: "beginner", sortOrder: 1 },
+      { name: "Microsoft Azure", categoryId: infraCat.id, technologyId: techMap["Microsoft Azure"].id, proficiency: "intermediate", sortOrder: 2 },
+      { name: "Google Cloud", categoryId: infraCat.id, technologyId: techMap["Google Cloud"].id, proficiency: "intermediate", sortOrder: 3 },
       { name: "Docker", categoryId: infraCat.id, technologyId: techMap["Docker"].id, proficiency: "intermediate", sortOrder: 4 },
+
       // テスト / ツール
       { name: "Jest", categoryId: testToolCat.id, technologyId: techMap["Jest"].id, proficiency: "intermediate", sortOrder: 1 },
-      { name: "Zod", categoryId: testToolCat.id, technologyId: techMap["Zod"].id, proficiency: "advanced", sortOrder: 2 },
+      { name: "pytest ", categoryId: testToolCat.id, technologyId: techMap["pytest"].id, proficiency: "intermediate", sortOrder: 2 },
+      { name: "Zod", categoryId: testToolCat.id, technologyId: techMap["Zod"].id, proficiency: "advanced", sortOrder: 3 },
       // AI / ML
       { name: "YOLO", categoryId: aiMlCat.id, technologyId: techMap["YOLO"].id, proficiency: "beginner", sortOrder: 1 },
       { name: "Microsoft Foundry AI", categoryId: aiMlCat.id, technologyId: techMap["Microsoft Foundry AI"].id, proficiency: "beginner", sortOrder: 2 },

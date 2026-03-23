@@ -76,7 +76,7 @@ model Project {
   architecture String
   highlights   String
   challenges   String
-  futureWork   String
+  futureWork   String?
   thumbnailUrl String?
   isPublished  Boolean             @default(false)
   sortOrder    Int
