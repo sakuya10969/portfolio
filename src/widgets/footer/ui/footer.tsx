@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import { Github, Twitter, Linkedin } from 'lucide-react';
+import { FaSquareGithub } from "react-icons/fa6";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa6";
 import { SITE_NAME } from '@/shared/config/site';
 
 export function Footer() {
@@ -18,7 +20,7 @@ export function Footer() {
               className="text-muted-foreground hover:text-foreground transition-colors"
               aria-label="GitHub"
             >
-              <Github className="h-5 w-5" />
+              <FaSquareGithub className="h-7 w-7" />
             </Link>
             <Link
               href="https://twitter.com"
@@ -27,16 +29,16 @@ export function Footer() {
               className="text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Twitter"
             >
-              <Twitter className="h-5 w-5" />
+              <FaSquareXTwitter className="h-7 w-7" />
             </Link>
             <Link
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/sakuya-fukuda-07858a329/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
               aria-label="LinkedIn"
             >
-              <Linkedin className="h-5 w-5" />
+              <FaLinkedin className="h-7 w-7" />
             </Link>
           </div>
         </div>

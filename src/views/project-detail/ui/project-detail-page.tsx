@@ -4,10 +4,12 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Separator } from '@/shared/ui/separator';
 import Link from 'next/link';
-import { ExternalLink, Github, ArrowLeft, FileText } from 'lucide-react';
+import { ExternalLink, ArrowLeft, FileText } from 'lucide-react';
+import { FaSquareGithub } from "react-icons/fa6";
+
 
 const linkIcons = {
-  github: Github,
+  github: FaSquareGithub,
   demo: ExternalLink,
   docs: FileText,
   other: ExternalLink,
@@ -40,7 +42,7 @@ export async function ProjectDetailPage({ slug }: Props) {
               return (
                 <Button key={link.id} asChild variant="outline" size="sm">
                   <Link href={link.url} target="_blank" rel="noopener noreferrer">
-                    <Icon className="mr-2 h-4 w-4" />
+                    <Icon className="mr-2 h-6 w-6" />
                     {link.label ?? link.type}
                   </Link>
                 </Button>

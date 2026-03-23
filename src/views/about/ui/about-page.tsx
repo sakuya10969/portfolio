@@ -1,14 +1,17 @@
 import { getProfile } from '@/entities/profile';
 import { notFound } from 'next/navigation';
-import { Github, Twitter, Linkedin, Globe, ExternalLink } from 'lucide-react';
+import { Globe, ExternalLink } from 'lucide-react';
+import { FaSquareGithub } from "react-icons/fa6";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa6";
 import { Button } from '@/shared/ui/button';
 import Link from 'next/link';
 import { SectionWrapper } from '@/shared/ui/section-wrapper';
 
 const platformIcons = {
-  github: Github,
-  twitter: Twitter,
-  linkedin: Linkedin,
+  github: FaSquareGithub,
+  twitter: FaSquareXTwitter,
+  linkedin: FaLinkedin,
   website: Globe,
   other: ExternalLink,
 };
@@ -33,7 +36,7 @@ export async function AboutPage() {
                 return (
                   <Button key={link.id} asChild variant="outline" size="sm">
                     <Link href={link.url} target="_blank" rel="noopener noreferrer">
-                      <Icon className="mr-2 h-4 w-4" />
+                      <Icon className="mr-2 h-6 w-6" />
                       {link.platform.charAt(0).toUpperCase() + link.platform.slice(1)}
                     </Link>
                   </Button>
