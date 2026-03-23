@@ -1,4 +1,4 @@
-import { ExperiencePage } from '@/pages/experience';
+import { ExperiencePage } from '@/views/experience';
 
 export default function Page() {
   return <ExperiencePage />;

@@ -1,4 +1,4 @@
-import { ProjectDetailPage } from '@/pages/project-detail';
+import { ProjectDetailPage } from '@/views/project-detail';
 
 type Props = { params: Promise<{ slug: string }> };
 

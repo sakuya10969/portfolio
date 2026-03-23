@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getProjects } from '@/entities/project';
+import { getProjects, type Project } from '@/entities/project';
 import { ProjectCard } from '@/entities/project';
 import { prisma } from '@/shared/lib/prisma';
 import { ProjectFilter } from '@/features/project-filter';
@@ -26,7 +26,7 @@ export async function ProjectListSection({ filter }: Props) {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
+          {projects.map((project: Project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>

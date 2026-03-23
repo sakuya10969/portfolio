@@ -14,10 +14,10 @@ export function ProjectFilter({ categories }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const activeCategory = searchParams.get('category') ?? '';
+  const activeCategory = searchParams?.get('category') ?? '';
 
   const updateFilter = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? '');
     if (value) {
       params.set(key, value);
     } else {

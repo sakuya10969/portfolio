@@ -1,4 +1,4 @@
-import { ProjectsPage } from '@/pages/projects';
+import { ProjectsPage } from '@/views/projects';
 
 type Props = {
   searchParams: Promise<{ category?: string; technology?: string }>;
