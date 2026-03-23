@@ -28,7 +28,7 @@ export type Project = {
   architecture: string;
   highlights: string;
   challenges: string;
-  futureWork: string;
+  futureWork: string | null;
   thumbnailUrl: string | null;
   isPublished: boolean;
   sortOrder: number;

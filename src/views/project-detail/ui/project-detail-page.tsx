@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getProjectBySlug } from '@/entities/project';
 import { Badge } from '@/shared/ui/badge';
+import { TechnologyBadge } from '@/shared/ui/technology-badge';
 import { Button } from '@/shared/ui/button';
 import { Separator } from '@/shared/ui/separator';
 import Link from 'next/link';
@@ -54,9 +55,7 @@ export async function ProjectDetailPage({ slug }: Props) {
 
       <div className="flex flex-wrap gap-2">
         {project.technologies.map((tech) => (
-          <Badge key={tech.id} variant="secondary">
-            {tech.name}
-          </Badge>
+          <TechnologyBadge key={tech.id} name={tech.name} size="md" />
         ))}
       </div>
 
@@ -69,7 +68,8 @@ export async function ProjectDetailPage({ slug }: Props) {
           { label: '工夫した点', content: project.highlights },
           { label: '苦労した点', content: project.challenges },
           { label: '今後の改善予定', content: project.futureWork },
-        ].map(({ label, content }) => (
+        ].filter(({ content }) => content != null)
+          .map(({ label, content }) => (
           <div key={label} className="space-y-3">
             <h2 className="text-xl font-semibold">{label}</h2>
             <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{content}</p>
