@@ -1,15 +1,9 @@
-import { prisma } from '@/shared/lib/prisma';
+import { API_BASE_URL } from '@/shared/config/site';
 import type { SkillCategory } from '../model/types';
 
 export async function getSkills(): Promise<SkillCategory[]> {
-  const categories = await prisma.skillCategory.findMany({
-    include: {
-      skills: {
-        include: { technology: true },
-        orderBy: { sortOrder: 'asc' },
-      },
-    },
-    orderBy: { sortOrder: 'asc' },
-  });
-  return categories;
+  const res = await fetch(`${API_BASE_URL}/api/skills`, { cache: 'no-store' });
+  if (!res.ok) return [];
+  const json = await res.json();
+  return json.data ?? [];
 }

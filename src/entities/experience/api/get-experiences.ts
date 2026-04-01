@@ -1,8 +1,9 @@
-import { prisma } from '@/shared/lib/prisma';
+import { API_BASE_URL } from '@/shared/config/site';
 import type { Experience } from '../model/types';
 
 export async function getExperiences(): Promise<Experience[]> {
-  return prisma.experience.findMany({
-    orderBy: { sortOrder: 'asc' },
-  });
+  const res = await fetch(`${API_BASE_URL}/api/experiences`, { cache: 'no-store' });
+  if (!res.ok) return [];
+  const json = await res.json();
+  return json.data ?? [];
 }
