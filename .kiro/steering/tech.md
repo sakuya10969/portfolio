@@ -106,6 +106,37 @@
 - 白ベースの背景にブルー・ライムグリーンのアクセントカラー
 - 情報の読みやすさを最優先にする。コントラスト比は WCAG AA 基準を目安にする
 
+## デプロイ方針
+
+- フロントエンドは Cloudflare Pages にデプロイする
+- バックエンドは Cloudflare Workers にデプロイする
+- データベースは Neon Serverless PostgreSQL を使用する
+
+### フロントエンド（Cloudflare Pages）
+
+- `client/` を `pnpm build` でビルドし、`build/client` を Cloudflare Pages にデプロイする
+- GitHub Actions で `main` ブランチへの push 時に自動デプロイする
+- ビルド時に `VITE_API_URL` 環境変数で API のベース URL を注入する
+- wrangler CLI を使用してデプロイする（`pnpm wrangler pages deploy build/client`）
+
+### バックエンド（Cloudflare Workers）
+
+- `server/` を Cloudflare Workers にデプロイする
+- `server/wrangler.jsonc` で Workers の設定を管理する
+- `nodejs_compat` フラグを有効にして Node.js 互換 API を使用する
+- Workers の Secrets に `DATABASE_URL` を設定して Neon に接続する
+- ローカル開発は Bun で実行し、本番は Workers ランタイムで動作する
+
+### 環境変数の管理
+
+| 変数 | 設定先 | 用途 |
+|---|---|---|
+| `VITE_API_URL` | GitHub Actions Variables / `.env.production` | フロントエンドの API 接続先 |
+| `CLOUDFLARE_API_TOKEN` | GitHub Actions Secrets | wrangler CLI の認証 |
+| `CLOUDFLARE_ACCOUNT_ID` | GitHub Actions Secrets | Cloudflare アカウント識別 |
+| `DATABASE_URL` | Workers Secrets / `.env.local` | Neon PostgreSQL 接続文字列 |
+| `CORS_ORIGIN` | Workers Secrets（将来） | CORS 許可オリジン |
+
 ## DB とスキーマ設計方針
 
 - PostgreSQL（Neon Serverless）を採用する

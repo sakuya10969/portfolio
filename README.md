@@ -163,6 +163,36 @@ portfolio/
 
 詳細は `server/src/db/schema/` を参照。
 
+## デプロイ
+
+| コンポーネント | デプロイ先 | プロジェクト名 |
+|---|---|---|
+| フロントエンド | Cloudflare Pages | `sakuya10969-portfolio-client` |
+| バックエンド | Cloudflare Workers | `sakuya10969-portfolio-server` |
+| データベース | Neon Serverless PostgreSQL | — |
+
+### フロントエンド（Cloudflare Pages）
+
+```bash
+cd client
+pnpm build
+pnpm wrangler pages deploy build/client --project-name=sakuya10969-portfolio-client
+```
+
+- GitHub Actions（`.github/workflows/pages-deployment.yaml`）で `main` ブランチへの push 時に自動デプロイ
+- 必要なシークレット: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
+- 必要な変数: `VITE_API_URL`（API のベース URL）
+
+### バックエンド（Cloudflare Workers）
+
+```bash
+cd server
+bunx wrangler deploy
+```
+
+- 設定ファイル: `server/wrangler.jsonc`
+- Workers の環境変数（Secrets）に `DATABASE_URL` を設定する
+
 ## ライセンス
 
 Private

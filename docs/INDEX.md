@@ -15,6 +15,16 @@
 | [history.md](./history.md) | 完了済みタスク | Prisma→Drizzle+Hono 移行、FSD 構築、全ページ UI 実装 |
 | [tasks.md](./tasks.md) | タスク一覧 | Next.js → React Router 刷新タスク |
 
+## デプロイ構成
+
+| コンポーネント | デプロイ先 | 備考 |
+|---|---|---|
+| フロントエンド (`client/`) | Cloudflare Pages | GitHub Actions で自動デプロイ |
+| バックエンド (`server/`) | Cloudflare Workers | `wrangler.jsonc` で設定管理 |
+| データベース | Neon Serverless PostgreSQL | サーバーレス運用 |
+
+デプロイ方針の詳細は `.kiro/steering/tech.md` の「デプロイ方針」セクションを参照。
+
 ## ドキュメント責務の切り分け
 
 | ドキュメント | 責務 | 書かないこと |
