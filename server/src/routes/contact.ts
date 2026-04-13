@@ -1,40 +1,49 @@
-import { Hono } from 'hono';
-import { zValidator } from '@hono/zod-validator';
-import { z } from 'zod';
-import { createContact } from '../services/contact.service';
+import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 import { successResponse, errorResponse } from '../lib/response';
+import {
+  contactRequestSchema,
+  contactCreateResponseSchema,
+  apiErrorResponseSchema,
+} from '../openapi/schemas';
 
-const contact = new Hono();
-
-const contactSchema = z.object({
-  name: z.string().min(1, '名前を入力してください').max(100, '名前は100文字以内で入力してください'),
-  email: z.string().email('有効なメールアドレスを入力してください'),
-  subject: z
-    .string()
-    .min(1, '件名を入力してください')
-    .max(200, '件名は200文字以内で入力してください'),
-  message: z
-    .string()
-    .min(1, 'メッセージを入力してください')
-    .max(2000, 'メッセージは2000文字以内で入力してください'),
+const createContactRoute = createRoute({
+  method: 'post',
+  path: '/',
+  tags: ['Contact'],
+  summary: '問い合わせを送信する',
+  request: {
+    body: {
+      required: true,
+      content: { 'application/json': { schema: contactRequestSchema } },
+    },
+  },
+  responses: {
+    201: {
+      description: '問い合わせを受け付けました',
+      content: { 'application/json': { schema: contactCreateResponseSchema } },
+    },
+    400: {
+      description: '入力内容に誤りがあります',
+      content: { 'application/json': { schema: apiErrorResponseSchema } },
+    },
+    500: {
+      description: 'サーバーエラー',
+      content: { 'application/json': { schema: apiErrorResponseSchema } },
+    },
+  },
 });
 
-contact.post(
-  '/',
-  zValidator('json', contactSchema, (result, c) => {
-    if (!result.success) {
-      return errorResponse(c, '入力内容に誤りがあります', 'VALIDATION_ERROR', 400);
-    }
-  }),
-  async (c) => {
-    try {
-      const data = c.req.valid('json');
-      await createContact(data);
-      return successResponse(c, { success: true }, 201);
-    } catch {
-      return errorResponse(c, '送信に失敗しました。しばらく後にお試しください', 'SERVER_ERROR');
-    }
-  },
-);
+const contact = new OpenAPIHono();
+
+contact.openapi(createContactRoute, async (c) => {
+  try {
+    const data = c.req.valid('json');
+    const { createContact } = await import('../services/contact.service');
+    await createContact(data);
+    return successResponse(c, { success: true }, 201);
+  } catch {
+    return errorResponse(c, '送信に失敗しました。しばらく後にお試しください', 'SERVER_ERROR');
+  }
+});
 
 export default contact;
