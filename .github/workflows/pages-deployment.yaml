@@ -1,53 +1,53 @@
-name: Deploy to Cloudflare Pages
+# name: Deploy to Cloudflare Pages
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+#       deployments: write
 
-    env:
-      VITE_API_URL: ${{ vars.VITE_API_URL }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+#     env:
+#       VITE_API_URL: ${{ vars.VITE_API_URL }}
+#       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+#       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
+#       - name: Setup pnpm
+#         uses: pnpm/action-setup@v4
+#         with:
+#           version: 10
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: client/pnpm-lock.yaml
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 22
+#           cache: pnpm
+#           cache-dependency-path: client/pnpm-lock.yaml
 
-      - name: Install client dependencies
-        working-directory: ./client
-        run: pnpm install --frozen-lockfile
+#       - name: Install client dependencies
+#         working-directory: ./client
+#         run: pnpm install --frozen-lockfile
 
-      - name: Build client
-        working-directory: ./client
-        run: pnpm build
+#       - name: Build client
+#         working-directory: ./client
+#         run: pnpm build
 
-      - name: Install Wrangler
-        working-directory: ./client
-        run: pnpm add -D wrangler@3
+#       - name: Install Wrangler
+#         working-directory: ./client
+#         run: pnpm add -D wrangler@3
 
-      - name: Deploy to Cloudflare Pages
-        working-directory: ./client
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm wrangler pages deploy build/client --project-name=sakuya10969-portfolio-client
+#       - name: Deploy to Cloudflare Pages
+#         working-directory: ./client
+#         env:
+#           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+#           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+#         run: pnpm wrangler pages deploy build/client --project-name=sakuya10969-portfolio-client
