@@ -5,12 +5,12 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { Skill } from './skill';
+import type { Skill } from "./skill";
 
 export interface SkillCategoryWithSkills {
-  id: string;
-  name: string;
-  slug: string;
-  sortOrder: number;
-  skills: Skill[];
+	id: string;
+	name: string;
+	slug: string;
+	sortOrder: number;
+	skills: Skill[];
 }

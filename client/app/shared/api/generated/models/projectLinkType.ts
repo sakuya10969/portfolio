@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ProjectLinkType = typeof ProjectLinkType[keyof typeof ProjectLinkType];
-
+export type ProjectLinkType =
+	(typeof ProjectLinkType)[keyof typeof ProjectLinkType];
 
 export const ProjectLinkType = {
-  github: 'github',
-  demo: 'demo',
-  docs: 'docs',
-  other: 'other',
+	github: "github",
+	demo: "demo",
+	docs: "docs",
+	other: "other",
 } as const;

@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ExperienceType = typeof ExperienceType[keyof typeof ExperienceType];
-
+export type ExperienceType =
+	(typeof ExperienceType)[keyof typeof ExperienceType];
 
 export const ExperienceType = {
-  work: 'work',
-  education: 'education',
-  activity: 'activity',
+	work: "work",
+	education: "education",
+	activity: "activity",
 } as const;

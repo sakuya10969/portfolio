@@ -5,147 +5,189 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import {
-  useQuery
-} from '@tanstack/react-query';
-import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
-  QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
-  UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
 
 import type {
-  ApiErrorResponse,
-  ExperienceListResponse
-} from '../../models';
-
-import { httpClient } from '../../../client';
-
-
-
+	DataTag,
+	DefinedInitialDataOptions,
+	DefinedUseQueryResult,
+	QueryClient,
+	QueryFunction,
+	QueryKey,
+	UndefinedInitialDataOptions,
+	UseQueryOptions,
+	UseQueryResult,
+} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { httpClient } from "../../../client";
+import type { ApiErrorResponse, ExperienceListResponse } from "../../models";
 
 /**
  * @summary 経歴一覧取得
  */
 export type getApiExperiencesResponse200 = {
-  data: ExperienceListResponse
-  status: 200
-}
+	data: ExperienceListResponse;
+	status: 200;
+};
 
 export type getApiExperiencesResponse500 = {
-  data: ApiErrorResponse
-  status: 500
-}
-
-export type getApiExperiencesResponseSuccess = (getApiExperiencesResponse200) & {
-  headers: Headers;
-};
-export type getApiExperiencesResponseError = (getApiExperiencesResponse500) & {
-  headers: Headers;
+	data: ApiErrorResponse;
+	status: 500;
 };
 
-export type getApiExperiencesResponse = (getApiExperiencesResponseSuccess | getApiExperiencesResponseError)
+export type getApiExperiencesResponseSuccess = getApiExperiencesResponse200 & {
+	headers: Headers;
+};
+export type getApiExperiencesResponseError = getApiExperiencesResponse500 & {
+	headers: Headers;
+};
+
+export type getApiExperiencesResponse =
+	| getApiExperiencesResponseSuccess
+	| getApiExperiencesResponseError;
 
 export const getGetApiExperiencesUrl = () => {
+	return `/api/experiences`;
+};
 
-
-
-
-  return `/api/experiences`
-}
-
-export const getApiExperiences = async ( options?: RequestInit): Promise<getApiExperiencesResponse> => {
-
-  return httpClient<getApiExperiencesResponse>(getGetApiExperiencesUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const getApiExperiences = async (
+	options?: RequestInit,
+): Promise<getApiExperiencesResponse> => {
+	return httpClient<getApiExperiencesResponse>(getGetApiExperiencesUrl(), {
+		...options,
+		method: "GET",
+	});
+};
 
 export const getGetApiExperiencesQueryKey = () => {
-    return [
-    `/api/experiences`
-    ] as const;
-    }
+	return [`/api/experiences`] as const;
+};
 
+export const getGetApiExperiencesQueryOptions = <
+	TData = Awaited<ReturnType<typeof getApiExperiences>>,
+	TError = ApiErrorResponse,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof getApiExperiences>>,
+			TError,
+			TData
+		>
+	>;
+}) => {
+	const { query: queryOptions } = options ?? {};
 
-export const getGetApiExperiencesQueryOptions = <TData = Awaited<ReturnType<typeof getApiExperiences>>, TError = ApiErrorResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiExperiences>>, TError, TData>>, }
-) => {
+	const queryKey = queryOptions?.queryKey ?? getGetApiExperiencesQueryKey();
 
-const {query: queryOptions} = options ?? {};
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof getApiExperiences>>
+	> = ({ signal }) => getApiExperiences({ signal });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiExperiencesQueryKey();
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+		Awaited<ReturnType<typeof getApiExperiences>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetApiExperiencesQueryResult = NonNullable<
+	Awaited<ReturnType<typeof getApiExperiences>>
+>;
+export type GetApiExperiencesQueryError = ApiErrorResponse;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiExperiences>>> = ({ signal }) => getApiExperiences({ signal });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiExperiences>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiExperiencesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiExperiences>>>
-export type GetApiExperiencesQueryError = ApiErrorResponse
-
-
-export function useGetApiExperiences<TData = Awaited<ReturnType<typeof getApiExperiences>>, TError = ApiErrorResponse>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiExperiences>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiExperiences>>,
-          TError,
-          Awaited<ReturnType<typeof getApiExperiences>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiExperiences<TData = Awaited<ReturnType<typeof getApiExperiences>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiExperiences>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiExperiences>>,
-          TError,
-          Awaited<ReturnType<typeof getApiExperiences>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiExperiences<TData = Awaited<ReturnType<typeof getApiExperiences>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiExperiences>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiExperiences<
+	TData = Awaited<ReturnType<typeof getApiExperiences>>,
+	TError = ApiErrorResponse,
+>(
+	options: {
+		query: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiExperiences>>,
+				TError,
+				TData
+			>
+		> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiExperiences>>,
+					TError,
+					Awaited<ReturnType<typeof getApiExperiences>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiExperiences<
+	TData = Awaited<ReturnType<typeof getApiExperiences>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiExperiences>>,
+				TError,
+				TData
+			>
+		> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiExperiences>>,
+					TError,
+					Awaited<ReturnType<typeof getApiExperiences>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiExperiences<
+	TData = Awaited<ReturnType<typeof getApiExperiences>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiExperiences>>,
+				TError,
+				TData
+			>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary 経歴一覧取得
  */
 
-export function useGetApiExperiences<TData = Awaited<ReturnType<typeof getApiExperiences>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiExperiences>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiExperiences<
+	TData = Awaited<ReturnType<typeof getApiExperiences>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiExperiences>>,
+				TError,
+				TData
+			>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
+	const queryOptions = getGetApiExperiencesQueryOptions(options);
 
-  const queryOptions = getGetApiExperiencesQueryOptions(options)
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+		TData,
+		TError
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+	return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

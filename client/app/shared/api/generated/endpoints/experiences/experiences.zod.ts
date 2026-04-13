@@ -5,22 +5,22 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import * as zod from 'zod';
-
+import * as zod from "zod";
 
 /**
  * @summary 経歴一覧取得
  */
 export const GetApiExperiencesResponse = zod.object({
-  "data": zod.array(zod.object({
-  "id": zod.string(),
-  "type": zod.enum(['work', 'education', 'activity']),
-  "organization": zod.string(),
-  "role": zod.string(),
-  "description": zod.string(),
-  "startDate": zod.string(),
-  "endDate": zod.string().nullable(),
-  "sortOrder": zod.number()
-}))
-})
-
+	data: zod.array(
+		zod.object({
+			id: zod.string(),
+			type: zod.enum(["work", "education", "activity"]),
+			organization: zod.string(),
+			role: zod.string(),
+			description: zod.string(),
+			startDate: zod.string(),
+			endDate: zod.string().nullable(),
+			sortOrder: zod.number(),
+		}),
+	),
+});

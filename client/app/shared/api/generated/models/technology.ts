@@ -7,11 +7,11 @@
  */
 
 export interface Technology {
-  id: string;
-  name: string;
-  /** @nullable */
-  iconUrl: string | null;
-  /** @nullable */
-  officialUrl: string | null;
-  sortOrder: number;
+	id: string;
+	name: string;
+	/** @nullable */
+	iconUrl: string | null;
+	/** @nullable */
+	officialUrl: string | null;
+	sortOrder: number;
 }

@@ -7,5 +7,5 @@
  */
 
 export interface ContactCreateResult {
-  success: true;
+	success: true;
 }

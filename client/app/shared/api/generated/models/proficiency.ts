@@ -9,12 +9,11 @@
 /**
  * @nullable
  */
-export type Proficiency = typeof Proficiency[keyof typeof Proficiency] | null;
-
+export type Proficiency = (typeof Proficiency)[keyof typeof Proficiency] | null;
 
 export const Proficiency = {
-  beginner: 'beginner',
-  intermediate: 'intermediate',
-  advanced: 'advanced',
-  expert: 'expert',
+	beginner: "beginner",
+	intermediate: "intermediate",
+	advanced: "advanced",
+	expert: "expert",
 } as const;

@@ -5,14 +5,14 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { SocialLink } from './socialLink';
+import type { SocialLink } from "./socialLink";
 
 export interface Profile {
-  id: string;
-  name: string;
-  title: string;
-  bio: string;
-  /** @nullable */
-  avatarUrl: string | null;
-  socialLinks: SocialLink[];
+	id: string;
+	name: string;
+	title: string;
+	bio: string;
+	/** @nullable */
+	avatarUrl: string | null;
+	socialLinks: SocialLink[];
 }

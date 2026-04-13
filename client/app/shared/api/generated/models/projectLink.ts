@@ -5,14 +5,14 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { ProjectLinkType } from './projectLinkType';
+import type { ProjectLinkType } from "./projectLinkType";
 
 export interface ProjectLink {
-  id: string;
-  projectId: string;
-  type: ProjectLinkType;
-  url: string;
-  /** @nullable */
-  label: string | null;
-  sortOrder: number;
+	id: string;
+	projectId: string;
+	type: ProjectLinkType;
+	url: string;
+	/** @nullable */
+	label: string | null;
+	sortOrder: number;
 }

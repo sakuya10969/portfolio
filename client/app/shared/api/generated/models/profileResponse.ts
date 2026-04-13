@@ -5,8 +5,8 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { Profile } from './profile';
+import type { Profile } from "./profile";
 
 export interface ProfileResponse {
-  data: Profile;
+	data: Profile;
 }

@@ -5,26 +5,32 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import * as zod from 'zod';
-
+import * as zod from "zod";
 
 /**
  * @summary プロフィール取得
  */
 export const GetApiProfileResponse = zod.object({
-  "data": zod.object({
-  "id": zod.string(),
-  "name": zod.string(),
-  "title": zod.string(),
-  "bio": zod.string(),
-  "avatarUrl": zod.string().nullable(),
-  "socialLinks": zod.array(zod.object({
-  "id": zod.string(),
-  "profileId": zod.string(),
-  "platform": zod.enum(['github', 'twitter', 'linkedin', 'website', 'other']),
-  "url": zod.string(),
-  "sortOrder": zod.number()
-}))
-})
-})
-
+	data: zod.object({
+		id: zod.string(),
+		name: zod.string(),
+		title: zod.string(),
+		bio: zod.string(),
+		avatarUrl: zod.string().nullable(),
+		socialLinks: zod.array(
+			zod.object({
+				id: zod.string(),
+				profileId: zod.string(),
+				platform: zod.enum([
+					"github",
+					"twitter",
+					"linkedin",
+					"website",
+					"other",
+				]),
+				url: zod.string(),
+				sortOrder: zod.number(),
+			}),
+		),
+	}),
+});

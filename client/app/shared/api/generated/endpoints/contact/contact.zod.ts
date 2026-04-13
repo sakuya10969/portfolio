@@ -5,8 +5,7 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import * as zod from 'zod';
-
+import * as zod from "zod";
 
 /**
  * @summary 問い合わせを送信する
@@ -17,12 +16,9 @@ export const postApiContactBodySubjectMax = 200;
 
 export const postApiContactBodyMessageMax = 2000;
 
-
-
 export const PostApiContactBody = zod.object({
-  "name": zod.string().min(1).max(postApiContactBodyNameMax),
-  "email": zod.email(),
-  "subject": zod.string().min(1).max(postApiContactBodySubjectMax),
-  "message": zod.string().min(1).max(postApiContactBodyMessageMax)
-})
-
+	name: zod.string().min(1).max(postApiContactBodyNameMax),
+	email: zod.email(),
+	subject: zod.string().min(1).max(postApiContactBodySubjectMax),
+	message: zod.string().min(1).max(postApiContactBodyMessageMax),
+});

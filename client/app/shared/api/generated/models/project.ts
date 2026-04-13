@@ -5,27 +5,27 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { ProjectCategory } from './projectCategory';
-import type { ProjectLink } from './projectLink';
-import type { Technology } from './technology';
+import type { ProjectCategory } from "./projectCategory";
+import type { ProjectLink } from "./projectLink";
+import type { Technology } from "./technology";
 
 export interface Project {
-  id: string;
-  slug: string;
-  title: string;
-  summary: string;
-  background: string;
-  architecture: string;
-  highlights: string;
-  challenges: string;
-  /** @nullable */
-  futureWork: string | null;
-  /** @nullable */
-  thumbnailUrl: string | null;
-  isPublished: boolean;
-  sortOrder: number;
-  categoryId: string;
-  category: ProjectCategory;
-  links: ProjectLink[];
-  technologies: Technology[];
+	id: string;
+	slug: string;
+	title: string;
+	summary: string;
+	background: string;
+	architecture: string;
+	highlights: string;
+	challenges: string;
+	/** @nullable */
+	futureWork: string | null;
+	/** @nullable */
+	thumbnailUrl: string | null;
+	isPublished: boolean;
+	sortOrder: number;
+	categoryId: string;
+	category: ProjectCategory;
+	links: ProjectLink[];
+	technologies: Technology[];
 }

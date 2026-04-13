@@ -5,16 +5,16 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { Proficiency } from './proficiency';
-import type { Technology } from './technology';
+import type { Proficiency } from "./proficiency";
+import type { Technology } from "./technology";
 
 export interface Skill {
-  id: string;
-  name: string;
-  categoryId: string;
-  /** @nullable */
-  technologyId: string | null;
-  proficiency: Proficiency | null;
-  sortOrder: number;
-  technology: Technology & (unknown | null);
+	id: string;
+	name: string;
+	categoryId: string;
+	/** @nullable */
+	technologyId: string | null;
+	proficiency: Proficiency | null;
+	sortOrder: number;
+	technology: Technology & (unknown | null);
 }

@@ -5,6 +5,8 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
+    "format": "biome format --write app",
+    "lint": "biome check app",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "generate:api": "orval"
@@ -24,6 +26,7 @@
     "@mantine/tiptap": "^9.0.1",
     "@react-router/node": "7.14.0",
     "@react-router/serve": "7.14.0",
+    "@tabler/icons-react": "^3.41.1",
     "@tanstack/react-query": "^5.99.0",
     "@tanstack/react-query-devtools": "^5.99.0",
     "axios": "^1.15.0",
@@ -35,6 +38,7 @@
     "lucide-react": "^1.8.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "react-icons": "^5.6.0",
     "react-router": "^7.14.0",
     "zod": "^4.3.6"
   },

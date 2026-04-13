@@ -5,16 +5,16 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { ExperienceType } from './experienceType';
+import type { ExperienceType } from "./experienceType";
 
 export interface Experience {
-  id: string;
-  type: ExperienceType;
-  organization: string;
-  role: string;
-  description: string;
-  startDate: string;
-  /** @nullable */
-  endDate: string | null;
-  sortOrder: number;
+	id: string;
+	type: ExperienceType;
+	organization: string;
+	role: string;
+	description: string;
+	startDate: string;
+	/** @nullable */
+	endDate: string | null;
+	sortOrder: number;
 }

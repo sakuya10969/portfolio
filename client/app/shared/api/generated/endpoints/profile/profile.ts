@@ -5,152 +5,177 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import {
-  useQuery
-} from '@tanstack/react-query';
-import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
-  QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
-  UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
 
 import type {
-  ApiErrorResponse,
-  ProfileResponse
-} from '../../models';
-
-import { httpClient } from '../../../client';
-
-
-
+	DataTag,
+	DefinedInitialDataOptions,
+	DefinedUseQueryResult,
+	QueryClient,
+	QueryFunction,
+	QueryKey,
+	UndefinedInitialDataOptions,
+	UseQueryOptions,
+	UseQueryResult,
+} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { httpClient } from "../../../client";
+import type { ApiErrorResponse, ProfileResponse } from "../../models";
 
 /**
  * @summary プロフィール取得
  */
 export type getApiProfileResponse200 = {
-  data: ProfileResponse
-  status: 200
-}
+	data: ProfileResponse;
+	status: 200;
+};
 
 export type getApiProfileResponse404 = {
-  data: ApiErrorResponse
-  status: 404
-}
+	data: ApiErrorResponse;
+	status: 404;
+};
 
 export type getApiProfileResponse500 = {
-  data: ApiErrorResponse
-  status: 500
-}
-
-export type getApiProfileResponseSuccess = (getApiProfileResponse200) & {
-  headers: Headers;
-};
-export type getApiProfileResponseError = (getApiProfileResponse404 | getApiProfileResponse500) & {
-  headers: Headers;
+	data: ApiErrorResponse;
+	status: 500;
 };
 
-export type getApiProfileResponse = (getApiProfileResponseSuccess | getApiProfileResponseError)
+export type getApiProfileResponseSuccess = getApiProfileResponse200 & {
+	headers: Headers;
+};
+export type getApiProfileResponseError = (
+	| getApiProfileResponse404
+	| getApiProfileResponse500
+) & {
+	headers: Headers;
+};
+
+export type getApiProfileResponse =
+	| getApiProfileResponseSuccess
+	| getApiProfileResponseError;
 
 export const getGetApiProfileUrl = () => {
+	return `/api/profile`;
+};
 
-
-
-
-  return `/api/profile`
-}
-
-export const getApiProfile = async ( options?: RequestInit): Promise<getApiProfileResponse> => {
-
-  return httpClient<getApiProfileResponse>(getGetApiProfileUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const getApiProfile = async (
+	options?: RequestInit,
+): Promise<getApiProfileResponse> => {
+	return httpClient<getApiProfileResponse>(getGetApiProfileUrl(), {
+		...options,
+		method: "GET",
+	});
+};
 
 export const getGetApiProfileQueryKey = () => {
-    return [
-    `/api/profile`
-    ] as const;
-    }
+	return [`/api/profile`] as const;
+};
 
+export const getGetApiProfileQueryOptions = <
+	TData = Awaited<ReturnType<typeof getApiProfile>>,
+	TError = ApiErrorResponse,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>
+	>;
+}) => {
+	const { query: queryOptions } = options ?? {};
 
-export const getGetApiProfileQueryOptions = <TData = Awaited<ReturnType<typeof getApiProfile>>, TError = ApiErrorResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>>, }
-) => {
+	const queryKey = queryOptions?.queryKey ?? getGetApiProfileQueryKey();
 
-const {query: queryOptions} = options ?? {};
+	const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiProfile>>> = ({
+		signal,
+	}) => getApiProfile({ signal });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiProfileQueryKey();
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+		Awaited<ReturnType<typeof getApiProfile>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetApiProfileQueryResult = NonNullable<
+	Awaited<ReturnType<typeof getApiProfile>>
+>;
+export type GetApiProfileQueryError = ApiErrorResponse;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiProfile>>> = ({ signal }) => getApiProfile({ signal });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getApiProfile>>>
-export type GetApiProfileQueryError = ApiErrorResponse
-
-
-export function useGetApiProfile<TData = Awaited<ReturnType<typeof getApiProfile>>, TError = ApiErrorResponse>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiProfile>>,
-          TError,
-          Awaited<ReturnType<typeof getApiProfile>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiProfile<TData = Awaited<ReturnType<typeof getApiProfile>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiProfile>>,
-          TError,
-          Awaited<ReturnType<typeof getApiProfile>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiProfile<TData = Awaited<ReturnType<typeof getApiProfile>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiProfile<
+	TData = Awaited<ReturnType<typeof getApiProfile>>,
+	TError = ApiErrorResponse,
+>(
+	options: {
+		query: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>
+		> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiProfile>>,
+					TError,
+					Awaited<ReturnType<typeof getApiProfile>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiProfile<
+	TData = Awaited<ReturnType<typeof getApiProfile>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>
+		> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiProfile>>,
+					TError,
+					Awaited<ReturnType<typeof getApiProfile>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiProfile<
+	TData = Awaited<ReturnType<typeof getApiProfile>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary プロフィール取得
  */
 
-export function useGetApiProfile<TData = Awaited<ReturnType<typeof getApiProfile>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiProfile<
+	TData = Awaited<ReturnType<typeof getApiProfile>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProfile>>, TError, TData>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
+	const queryOptions = getGetApiProfileQueryOptions(options);
 
-  const queryOptions = getGetApiProfileQueryOptions(options)
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+		TData,
+		TError
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+	return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

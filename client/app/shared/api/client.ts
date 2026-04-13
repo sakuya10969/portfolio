@@ -1,18 +1,43 @@
-import Axios from 'axios';
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse, Method } from "axios";
+import Axios from "axios";
 
 export const axios = Axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3000',
-  headers: { 'Content-Type': 'application/json' },
+	baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:3000",
+	headers: { "Content-Type": "application/json" },
 });
 
-/**
- * Orval mutator として使用する HTTP クライアント。
- * Orval が生成するフック内部でこの関数が呼ばれ、
- * axios インスタンス経由でリクエストを実行する。
- */
-export const httpClient = <T>(config: AxiosRequestConfig): Promise<T> => {
-  return axios(config).then((res: AxiosResponse<T>) => res.data);
+function normalizeHeaders(headers: RequestInit["headers"]) {
+	if (!headers) {
+		return undefined;
+	}
+
+	if (headers instanceof Headers) {
+		return Object.fromEntries(headers.entries());
+	}
+
+	if (Array.isArray(headers)) {
+		return Object.fromEntries(headers);
+	}
+
+	return headers;
+}
+
+export const httpClient = async <T>(
+	urlOrConfig: string | AxiosRequestConfig,
+	options?: RequestInit,
+): Promise<T> => {
+	const config =
+		typeof urlOrConfig === "string"
+			? {
+					data: options?.body,
+					headers: normalizeHeaders(options?.headers),
+					method: (options?.method ?? "GET") as Method,
+					url: urlOrConfig,
+				}
+			: urlOrConfig;
+
+	const response: AxiosResponse<T> = await axios(config);
+	return response.data;
 };
 
 export default httpClient;

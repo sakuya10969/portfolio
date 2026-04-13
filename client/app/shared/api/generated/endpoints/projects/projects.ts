@@ -5,400 +5,569 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import {
-  useQuery
-} from '@tanstack/react-query';
-import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
-  QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
-  UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
 
 import type {
-  ApiErrorResponse,
-  CategoryListResponse,
-  GetApiProjectsParams,
-  ProjectDetailResponse,
-  ProjectListResponse
-} from '../../models';
-
-import { httpClient } from '../../../client';
-
-
-
+	DataTag,
+	DefinedInitialDataOptions,
+	DefinedUseQueryResult,
+	QueryClient,
+	QueryFunction,
+	QueryKey,
+	UndefinedInitialDataOptions,
+	UseQueryOptions,
+	UseQueryResult,
+} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { httpClient } from "../../../client";
+import type {
+	ApiErrorResponse,
+	CategoryListResponse,
+	GetApiProjectsParams,
+	ProjectDetailResponse,
+	ProjectListResponse,
+} from "../../models";
 
 /**
  * @summary カテゴリ一覧取得
  */
 export type getApiProjectsCategoriesResponse200 = {
-  data: CategoryListResponse
-  status: 200
-}
+	data: CategoryListResponse;
+	status: 200;
+};
 
 export type getApiProjectsCategoriesResponse500 = {
-  data: ApiErrorResponse
-  status: 500
-}
-
-export type getApiProjectsCategoriesResponseSuccess = (getApiProjectsCategoriesResponse200) & {
-  headers: Headers;
-};
-export type getApiProjectsCategoriesResponseError = (getApiProjectsCategoriesResponse500) & {
-  headers: Headers;
+	data: ApiErrorResponse;
+	status: 500;
 };
 
-export type getApiProjectsCategoriesResponse = (getApiProjectsCategoriesResponseSuccess | getApiProjectsCategoriesResponseError)
+export type getApiProjectsCategoriesResponseSuccess =
+	getApiProjectsCategoriesResponse200 & {
+		headers: Headers;
+	};
+export type getApiProjectsCategoriesResponseError =
+	getApiProjectsCategoriesResponse500 & {
+		headers: Headers;
+	};
+
+export type getApiProjectsCategoriesResponse =
+	| getApiProjectsCategoriesResponseSuccess
+	| getApiProjectsCategoriesResponseError;
 
 export const getGetApiProjectsCategoriesUrl = () => {
+	return `/api/projects/categories`;
+};
 
-
-
-
-  return `/api/projects/categories`
-}
-
-export const getApiProjectsCategories = async ( options?: RequestInit): Promise<getApiProjectsCategoriesResponse> => {
-
-  return httpClient<getApiProjectsCategoriesResponse>(getGetApiProjectsCategoriesUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+export const getApiProjectsCategories = async (
+	options?: RequestInit,
+): Promise<getApiProjectsCategoriesResponse> => {
+	return httpClient<getApiProjectsCategoriesResponse>(
+		getGetApiProjectsCategoriesUrl(),
+		{
+			...options,
+			method: "GET",
+		},
+	);
+};
 
 export const getGetApiProjectsCategoriesQueryKey = () => {
-    return [
-    `/api/projects/categories`
-    ] as const;
-    }
+	return [`/api/projects/categories`] as const;
+};
 
+export const getGetApiProjectsCategoriesQueryOptions = <
+	TData = Awaited<ReturnType<typeof getApiProjectsCategories>>,
+	TError = ApiErrorResponse,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof getApiProjectsCategories>>,
+			TError,
+			TData
+		>
+	>;
+}) => {
+	const { query: queryOptions } = options ?? {};
 
-export const getGetApiProjectsCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiProjectsCategories>>, TError = ApiErrorResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsCategories>>, TError, TData>>, }
-) => {
+	const queryKey =
+		queryOptions?.queryKey ?? getGetApiProjectsCategoriesQueryKey();
 
-const {query: queryOptions} = options ?? {};
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof getApiProjectsCategories>>
+	> = ({ signal }) => getApiProjectsCategories({ signal });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiProjectsCategoriesQueryKey();
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+		Awaited<ReturnType<typeof getApiProjectsCategories>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetApiProjectsCategoriesQueryResult = NonNullable<
+	Awaited<ReturnType<typeof getApiProjectsCategories>>
+>;
+export type GetApiProjectsCategoriesQueryError = ApiErrorResponse;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiProjectsCategories>>> = ({ signal }) => getApiProjectsCategories({ signal });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsCategories>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiProjectsCategoriesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiProjectsCategories>>>
-export type GetApiProjectsCategoriesQueryError = ApiErrorResponse
-
-
-export function useGetApiProjectsCategories<TData = Awaited<ReturnType<typeof getApiProjectsCategories>>, TError = ApiErrorResponse>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsCategories>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiProjectsCategories>>,
-          TError,
-          Awaited<ReturnType<typeof getApiProjectsCategories>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiProjectsCategories<TData = Awaited<ReturnType<typeof getApiProjectsCategories>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsCategories>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiProjectsCategories>>,
-          TError,
-          Awaited<ReturnType<typeof getApiProjectsCategories>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiProjectsCategories<TData = Awaited<ReturnType<typeof getApiProjectsCategories>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsCategories>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiProjectsCategories<
+	TData = Awaited<ReturnType<typeof getApiProjectsCategories>>,
+	TError = ApiErrorResponse,
+>(
+	options: {
+		query: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsCategories>>,
+				TError,
+				TData
+			>
+		> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiProjectsCategories>>,
+					TError,
+					Awaited<ReturnType<typeof getApiProjectsCategories>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiProjectsCategories<
+	TData = Awaited<ReturnType<typeof getApiProjectsCategories>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsCategories>>,
+				TError,
+				TData
+			>
+		> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiProjectsCategories>>,
+					TError,
+					Awaited<ReturnType<typeof getApiProjectsCategories>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiProjectsCategories<
+	TData = Awaited<ReturnType<typeof getApiProjectsCategories>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsCategories>>,
+				TError,
+				TData
+			>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary カテゴリ一覧取得
  */
 
-export function useGetApiProjectsCategories<TData = Awaited<ReturnType<typeof getApiProjectsCategories>>, TError = ApiErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsCategories>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiProjectsCategories<
+	TData = Awaited<ReturnType<typeof getApiProjectsCategories>>,
+	TError = ApiErrorResponse,
+>(
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsCategories>>,
+				TError,
+				TData
+			>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
+	const queryOptions = getGetApiProjectsCategoriesQueryOptions(options);
 
-  const queryOptions = getGetApiProjectsCategoriesQueryOptions(options)
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+		TData,
+		TError
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+	return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * @summary プロジェクト一覧取得
  */
 export type getApiProjectsResponse200 = {
-  data: ProjectListResponse
-  status: 200
-}
+	data: ProjectListResponse;
+	status: 200;
+};
 
 export type getApiProjectsResponse500 = {
-  data: ApiErrorResponse
-  status: 500
-}
-
-export type getApiProjectsResponseSuccess = (getApiProjectsResponse200) & {
-  headers: Headers;
-};
-export type getApiProjectsResponseError = (getApiProjectsResponse500) & {
-  headers: Headers;
+	data: ApiErrorResponse;
+	status: 500;
 };
 
-export type getApiProjectsResponse = (getApiProjectsResponseSuccess | getApiProjectsResponseError)
+export type getApiProjectsResponseSuccess = getApiProjectsResponse200 & {
+	headers: Headers;
+};
+export type getApiProjectsResponseError = getApiProjectsResponse500 & {
+	headers: Headers;
+};
 
-export const getGetApiProjectsUrl = (params?: GetApiProjectsParams,) => {
-  const normalizedParams = new URLSearchParams();
+export type getApiProjectsResponse =
+	| getApiProjectsResponseSuccess
+	| getApiProjectsResponseError;
 
-  Object.entries(params || {}).forEach(([key, value]) => {
+export const getGetApiProjectsUrl = (params?: GetApiProjectsParams) => {
+	const normalizedParams = new URLSearchParams();
 
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
-    }
-  });
+	Object.entries(params || {}).forEach(([key, value]) => {
+		if (value !== undefined) {
+			normalizedParams.append(key, value === null ? "null" : value.toString());
+		}
+	});
 
-  const stringifiedParams = normalizedParams.toString();
+	const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/projects?${stringifiedParams}` : `/api/projects`
-}
+	return stringifiedParams.length > 0
+		? `/api/projects?${stringifiedParams}`
+		: `/api/projects`;
+};
 
-export const getApiProjects = async (params?: GetApiProjectsParams, options?: RequestInit): Promise<getApiProjectsResponse> => {
+export const getApiProjects = async (
+	params?: GetApiProjectsParams,
+	options?: RequestInit,
+): Promise<getApiProjectsResponse> => {
+	return httpClient<getApiProjectsResponse>(getGetApiProjectsUrl(params), {
+		...options,
+		method: "GET",
+	});
+};
 
-  return httpClient<getApiProjectsResponse>(getGetApiProjectsUrl(params),
-  {
-    ...options,
-    method: 'GET'
+export const getGetApiProjectsQueryKey = (params?: GetApiProjectsParams) => {
+	return [`/api/projects`, ...(params ? [params] : [])] as const;
+};
 
-
-  }
-);}
-
-
-
-
-
-export const getGetApiProjectsQueryKey = (params?: GetApiProjectsParams,) => {
-    return [
-    `/api/projects`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-
-export const getGetApiProjectsQueryOptions = <TData = Awaited<ReturnType<typeof getApiProjects>>, TError = ApiErrorResponse>(params?: GetApiProjectsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>>, }
+export const getGetApiProjectsQueryOptions = <
+	TData = Awaited<ReturnType<typeof getApiProjects>>,
+	TError = ApiErrorResponse,
+>(
+	params?: GetApiProjectsParams,
+	options?: {
+		query?: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>
+		>;
+	},
 ) => {
+	const { query: queryOptions } = options ?? {};
 
-const {query: queryOptions} = options ?? {};
+	const queryKey = queryOptions?.queryKey ?? getGetApiProjectsQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiProjectsQueryKey(params);
+	const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiProjects>>> = ({
+		signal,
+	}) => getApiProjects(params, { signal });
 
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+		Awaited<ReturnType<typeof getApiProjects>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetApiProjectsQueryResult = NonNullable<
+	Awaited<ReturnType<typeof getApiProjects>>
+>;
+export type GetApiProjectsQueryError = ApiErrorResponse;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiProjects>>> = ({ signal }) => getApiProjects(params, { signal });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiProjectsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiProjects>>>
-export type GetApiProjectsQueryError = ApiErrorResponse
-
-
-export function useGetApiProjects<TData = Awaited<ReturnType<typeof getApiProjects>>, TError = ApiErrorResponse>(
- params: undefined |  GetApiProjectsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiProjects>>,
-          TError,
-          Awaited<ReturnType<typeof getApiProjects>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiProjects<TData = Awaited<ReturnType<typeof getApiProjects>>, TError = ApiErrorResponse>(
- params?: GetApiProjectsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiProjects>>,
-          TError,
-          Awaited<ReturnType<typeof getApiProjects>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiProjects<TData = Awaited<ReturnType<typeof getApiProjects>>, TError = ApiErrorResponse>(
- params?: GetApiProjectsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiProjects<
+	TData = Awaited<ReturnType<typeof getApiProjects>>,
+	TError = ApiErrorResponse,
+>(
+	params: undefined | GetApiProjectsParams,
+	options: {
+		query: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>
+		> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiProjects>>,
+					TError,
+					Awaited<ReturnType<typeof getApiProjects>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiProjects<
+	TData = Awaited<ReturnType<typeof getApiProjects>>,
+	TError = ApiErrorResponse,
+>(
+	params?: GetApiProjectsParams,
+	options?: {
+		query?: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>
+		> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiProjects>>,
+					TError,
+					Awaited<ReturnType<typeof getApiProjects>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiProjects<
+	TData = Awaited<ReturnType<typeof getApiProjects>>,
+	TError = ApiErrorResponse,
+>(
+	params?: GetApiProjectsParams,
+	options?: {
+		query?: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary プロジェクト一覧取得
  */
 
-export function useGetApiProjects<TData = Awaited<ReturnType<typeof getApiProjects>>, TError = ApiErrorResponse>(
- params?: GetApiProjectsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiProjects<
+	TData = Awaited<ReturnType<typeof getApiProjects>>,
+	TError = ApiErrorResponse,
+>(
+	params?: GetApiProjectsParams,
+	options?: {
+		query?: Partial<
+			UseQueryOptions<Awaited<ReturnType<typeof getApiProjects>>, TError, TData>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
+	const queryOptions = getGetApiProjectsQueryOptions(params, options);
 
-  const queryOptions = getGetApiProjectsQueryOptions(params,options)
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+		TData,
+		TError
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+	return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * @summary プロジェクト詳細取得
  */
 export type getApiProjectsSlugResponse200 = {
-  data: ProjectDetailResponse
-  status: 200
-}
+	data: ProjectDetailResponse;
+	status: 200;
+};
 
 export type getApiProjectsSlugResponse404 = {
-  data: ApiErrorResponse
-  status: 404
-}
+	data: ApiErrorResponse;
+	status: 404;
+};
 
 export type getApiProjectsSlugResponse500 = {
-  data: ApiErrorResponse
-  status: 500
-}
-
-export type getApiProjectsSlugResponseSuccess = (getApiProjectsSlugResponse200) & {
-  headers: Headers;
-};
-export type getApiProjectsSlugResponseError = (getApiProjectsSlugResponse404 | getApiProjectsSlugResponse500) & {
-  headers: Headers;
+	data: ApiErrorResponse;
+	status: 500;
 };
 
-export type getApiProjectsSlugResponse = (getApiProjectsSlugResponseSuccess | getApiProjectsSlugResponseError)
+export type getApiProjectsSlugResponseSuccess =
+	getApiProjectsSlugResponse200 & {
+		headers: Headers;
+	};
+export type getApiProjectsSlugResponseError = (
+	| getApiProjectsSlugResponse404
+	| getApiProjectsSlugResponse500
+) & {
+	headers: Headers;
+};
 
-export const getGetApiProjectsSlugUrl = (slug: string,) => {
+export type getApiProjectsSlugResponse =
+	| getApiProjectsSlugResponseSuccess
+	| getApiProjectsSlugResponseError;
 
+export const getGetApiProjectsSlugUrl = (slug: string) => {
+	return `/api/projects/${slug}`;
+};
 
+export const getApiProjectsSlug = async (
+	slug: string,
+	options?: RequestInit,
+): Promise<getApiProjectsSlugResponse> => {
+	return httpClient<getApiProjectsSlugResponse>(
+		getGetApiProjectsSlugUrl(slug),
+		{
+			...options,
+			method: "GET",
+		},
+	);
+};
 
+export const getGetApiProjectsSlugQueryKey = (slug: string) => {
+	return [`/api/projects/${slug}`] as const;
+};
 
-  return `/api/projects/${slug}`
-}
-
-export const getApiProjectsSlug = async (slug: string, options?: RequestInit): Promise<getApiProjectsSlugResponse> => {
-
-  return httpClient<getApiProjectsSlugResponse>(getGetApiProjectsSlugUrl(slug),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getGetApiProjectsSlugQueryKey = (slug: string,) => {
-    return [
-    `/api/projects/${slug}`
-    ] as const;
-    }
-
-
-export const getGetApiProjectsSlugQueryOptions = <TData = Awaited<ReturnType<typeof getApiProjectsSlug>>, TError = ApiErrorResponse>(slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsSlug>>, TError, TData>>, }
+export const getGetApiProjectsSlugQueryOptions = <
+	TData = Awaited<ReturnType<typeof getApiProjectsSlug>>,
+	TError = ApiErrorResponse,
+>(
+	slug: string,
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsSlug>>,
+				TError,
+				TData
+			>
+		>;
+	},
 ) => {
+	const { query: queryOptions } = options ?? {};
 
-const {query: queryOptions} = options ?? {};
+	const queryKey =
+		queryOptions?.queryKey ?? getGetApiProjectsSlugQueryKey(slug);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiProjectsSlugQueryKey(slug);
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof getApiProjectsSlug>>
+	> = ({ signal }) => getApiProjectsSlug(slug, { signal });
 
+	return {
+		queryKey,
+		queryFn,
+		enabled: !!slug,
+		...queryOptions,
+	} as UseQueryOptions<
+		Awaited<ReturnType<typeof getApiProjectsSlug>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetApiProjectsSlugQueryResult = NonNullable<
+	Awaited<ReturnType<typeof getApiProjectsSlug>>
+>;
+export type GetApiProjectsSlugQueryError = ApiErrorResponse;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiProjectsSlug>>> = ({ signal }) => getApiProjectsSlug(slug, { signal });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(slug), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsSlug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiProjectsSlugQueryResult = NonNullable<Awaited<ReturnType<typeof getApiProjectsSlug>>>
-export type GetApiProjectsSlugQueryError = ApiErrorResponse
-
-
-export function useGetApiProjectsSlug<TData = Awaited<ReturnType<typeof getApiProjectsSlug>>, TError = ApiErrorResponse>(
- slug: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsSlug>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiProjectsSlug>>,
-          TError,
-          Awaited<ReturnType<typeof getApiProjectsSlug>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiProjectsSlug<TData = Awaited<ReturnType<typeof getApiProjectsSlug>>, TError = ApiErrorResponse>(
- slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsSlug>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiProjectsSlug>>,
-          TError,
-          Awaited<ReturnType<typeof getApiProjectsSlug>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiProjectsSlug<TData = Awaited<ReturnType<typeof getApiProjectsSlug>>, TError = ApiErrorResponse>(
- slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsSlug>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiProjectsSlug<
+	TData = Awaited<ReturnType<typeof getApiProjectsSlug>>,
+	TError = ApiErrorResponse,
+>(
+	slug: string,
+	options: {
+		query: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsSlug>>,
+				TError,
+				TData
+			>
+		> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiProjectsSlug>>,
+					TError,
+					Awaited<ReturnType<typeof getApiProjectsSlug>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiProjectsSlug<
+	TData = Awaited<ReturnType<typeof getApiProjectsSlug>>,
+	TError = ApiErrorResponse,
+>(
+	slug: string,
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsSlug>>,
+				TError,
+				TData
+			>
+		> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getApiProjectsSlug>>,
+					TError,
+					Awaited<ReturnType<typeof getApiProjectsSlug>>
+				>,
+				"initialData"
+			>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiProjectsSlug<
+	TData = Awaited<ReturnType<typeof getApiProjectsSlug>>,
+	TError = ApiErrorResponse,
+>(
+	slug: string,
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsSlug>>,
+				TError,
+				TData
+			>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary プロジェクト詳細取得
  */
 
-export function useGetApiProjectsSlug<TData = Awaited<ReturnType<typeof getApiProjectsSlug>>, TError = ApiErrorResponse>(
- slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiProjectsSlug>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiProjectsSlug<
+	TData = Awaited<ReturnType<typeof getApiProjectsSlug>>,
+	TError = ApiErrorResponse,
+>(
+	slug: string,
+	options?: {
+		query?: Partial<
+			UseQueryOptions<
+				Awaited<ReturnType<typeof getApiProjectsSlug>>,
+				TError,
+				TData
+			>
+		>;
+	},
+	queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
+	const queryOptions = getGetApiProjectsSlugQueryOptions(slug, options);
 
-  const queryOptions = getGetApiProjectsSlugQueryOptions(slug,options)
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+		TData,
+		TError
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+	return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

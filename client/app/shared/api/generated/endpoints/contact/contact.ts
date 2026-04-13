@@ -5,118 +5,133 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import {
-  useMutation
-} from '@tanstack/react-query';
-import type {
-  MutationFunction,
-  QueryClient,
-  UseMutationOptions,
-  UseMutationResult
-} from '@tanstack/react-query';
 
 import type {
-  ApiErrorResponse,
-  ContactCreateResponse,
-  ContactRequest
-} from '../../models';
-
-import { httpClient } from '../../../client';
-
-
-
+	MutationFunction,
+	QueryClient,
+	UseMutationOptions,
+	UseMutationResult,
+} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { httpClient } from "../../../client";
+import type {
+	ApiErrorResponse,
+	ContactCreateResponse,
+	ContactRequest,
+} from "../../models";
 
 /**
  * @summary 問い合わせを送信する
  */
 export type postApiContactResponse201 = {
-  data: ContactCreateResponse
-  status: 201
-}
+	data: ContactCreateResponse;
+	status: 201;
+};
 
 export type postApiContactResponse400 = {
-  data: ApiErrorResponse
-  status: 400
-}
+	data: ApiErrorResponse;
+	status: 400;
+};
 
 export type postApiContactResponse500 = {
-  data: ApiErrorResponse
-  status: 500
-}
-
-export type postApiContactResponseSuccess = (postApiContactResponse201) & {
-  headers: Headers;
-};
-export type postApiContactResponseError = (postApiContactResponse400 | postApiContactResponse500) & {
-  headers: Headers;
+	data: ApiErrorResponse;
+	status: 500;
 };
 
-export type postApiContactResponse = (postApiContactResponseSuccess | postApiContactResponseError)
+export type postApiContactResponseSuccess = postApiContactResponse201 & {
+	headers: Headers;
+};
+export type postApiContactResponseError = (
+	| postApiContactResponse400
+	| postApiContactResponse500
+) & {
+	headers: Headers;
+};
+
+export type postApiContactResponse =
+	| postApiContactResponseSuccess
+	| postApiContactResponseError;
 
 export const getPostApiContactUrl = () => {
+	return `/api/contact`;
+};
 
+export const postApiContact = async (
+	contactRequest: ContactRequest,
+	options?: RequestInit,
+): Promise<postApiContactResponse> => {
+	return httpClient<postApiContactResponse>(getPostApiContactUrl(), {
+		...options,
+		method: "POST",
+		headers: { "Content-Type": "application/json", ...options?.headers },
+		body: JSON.stringify(contactRequest),
+	});
+};
 
+export const getPostApiContactMutationOptions = <
+	TError = ApiErrorResponse,
+	TContext = unknown,
+>(options?: {
+	mutation?: UseMutationOptions<
+		Awaited<ReturnType<typeof postApiContact>>,
+		TError,
+		{ data: ContactRequest },
+		TContext
+	>;
+}): UseMutationOptions<
+	Awaited<ReturnType<typeof postApiContact>>,
+	TError,
+	{ data: ContactRequest },
+	TContext
+> => {
+	const mutationKey = ["postApiContact"];
+	const { mutation: mutationOptions } = options
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
+			? options
+			: { ...options, mutation: { ...options.mutation, mutationKey } }
+		: { mutation: { mutationKey } };
 
+	const mutationFn: MutationFunction<
+		Awaited<ReturnType<typeof postApiContact>>,
+		{ data: ContactRequest }
+	> = (props) => {
+		const { data } = props ?? {};
 
-  return `/api/contact`
-}
+		return postApiContact(data);
+	};
 
-export const postApiContact = async (contactRequest: ContactRequest, options?: RequestInit): Promise<postApiContactResponse> => {
+	return { mutationFn, ...mutationOptions };
+};
 
-  return httpClient<postApiContactResponse>(getPostApiContactUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      contactRequest,)
-  }
-);}
+export type PostApiContactMutationResult = NonNullable<
+	Awaited<ReturnType<typeof postApiContact>>
+>;
+export type PostApiContactMutationBody = ContactRequest;
+export type PostApiContactMutationError = ApiErrorResponse;
 
-
-
-
-export const getPostApiContactMutationOptions = <TError = ApiErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiContact>>, TError,{data: ContactRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postApiContact>>, TError,{data: ContactRequest}, TContext> => {
-
-const mutationKey = ['postApiContact'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiContact>>, {data: ContactRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postApiContact(data,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostApiContactMutationResult = NonNullable<Awaited<ReturnType<typeof postApiContact>>>
-    export type PostApiContactMutationBody = ContactRequest
-    export type PostApiContactMutationError = ApiErrorResponse
-
-    /**
+/**
  * @summary 問い合わせを送信する
  */
-export const usePostApiContact = <TError = ApiErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiContact>>, TError,{data: ContactRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiContact>>,
-        TError,
-        {data: ContactRequest},
-        TContext
-      > => {
-      return useMutation(getPostApiContactMutationOptions(options), queryClient);
-    }
+export const usePostApiContact = <
+	TError = ApiErrorResponse,
+	TContext = unknown,
+>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof postApiContact>>,
+			TError,
+			{ data: ContactRequest },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient,
+): UseMutationResult<
+	Awaited<ReturnType<typeof postApiContact>>,
+	TError,
+	{ data: ContactRequest },
+	TContext
+> => {
+	return useMutation(getPostApiContactMutationOptions(options), queryClient);
+};

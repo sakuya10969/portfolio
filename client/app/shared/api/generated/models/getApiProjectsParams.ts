@@ -7,12 +7,12 @@
  */
 
 export type GetApiProjectsParams = {
-/**
- * カテゴリ slug でフィルタ
- */
-category?: string;
-/**
- * 技術名でフィルタ
- */
-technology?: string;
+	/**
+	 * カテゴリ slug でフィルタ
+	 */
+	category?: string;
+	/**
+	 * 技術名でフィルタ
+	 */
+	technology?: string;
 };

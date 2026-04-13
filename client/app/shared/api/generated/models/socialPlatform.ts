@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type SocialPlatform = typeof SocialPlatform[keyof typeof SocialPlatform];
-
+export type SocialPlatform =
+	(typeof SocialPlatform)[keyof typeof SocialPlatform];
 
 export const SocialPlatform = {
-  github: 'github',
-  twitter: 'twitter',
-  linkedin: 'linkedin',
-  website: 'website',
-  other: 'other',
+	github: "github",
+	twitter: "twitter",
+	linkedin: "linkedin",
+	website: "website",
+	other: "other",
 } as const;

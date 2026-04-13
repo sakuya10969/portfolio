@@ -7,5 +7,5 @@
  */
 
 export type ContactCreateResponseData = {
-  success: true;
+	success: true;
 };

@@ -1,9 +1,0 @@
-node_modules
-.next
-dist
-build
-pnpm-lock.yaml
-prisma/migrations
-src/shared/lib/generated
-.env
-.env.*

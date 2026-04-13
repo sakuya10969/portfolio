@@ -7,8 +7,8 @@
  */
 
 export interface ProjectCategory {
-  id: string;
-  name: string;
-  slug: string;
-  sortOrder: number;
+	id: string;
+	name: string;
+	slug: string;
+	sortOrder: number;
 }

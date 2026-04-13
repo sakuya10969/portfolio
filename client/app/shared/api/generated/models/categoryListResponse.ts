@@ -5,8 +5,8 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { ProjectCategory } from './projectCategory';
+import type { ProjectCategory } from "./projectCategory";
 
 export interface CategoryListResponse {
-  data: ProjectCategory[];
+	data: ProjectCategory[];
 }

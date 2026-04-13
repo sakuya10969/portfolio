@@ -5,12 +5,12 @@
  * ポートフォリオサイトの API。Orval で型安全なクライアントを自動生成する。
  * OpenAPI spec version: 1.0.0
  */
-import type { SocialPlatform } from './socialPlatform';
+import type { SocialPlatform } from "./socialPlatform";
 
 export interface SocialLink {
-  id: string;
-  profileId: string;
-  platform: SocialPlatform;
-  url: string;
-  sortOrder: number;
+	id: string;
+	profileId: string;
+	platform: SocialPlatform;
+	url: string;
+	sortOrder: number;
 }
