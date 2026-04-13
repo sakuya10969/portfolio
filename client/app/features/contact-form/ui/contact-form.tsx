@@ -38,7 +38,7 @@ export function ContactForm() {
 				setSubmitted(true);
 				form.reset();
 				notifications.show({
-					color: "teal",
+					color: "green",
 					message: "Message sent successfully",
 					title: "Success",
 				});
@@ -60,7 +60,7 @@ export function ContactForm() {
 			<form onSubmit={onSubmit}>
 				<Stack gap="md">
 					{submitted ? (
-						<Alert color="teal" icon={<IconCheck size={16} />} title="Success">
+						<Alert color="green" icon={<IconCheck size={16} />} title="Success">
 							Message sent successfully
 						</Alert>
 					) : null}

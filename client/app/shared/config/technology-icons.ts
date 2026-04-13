@@ -27,6 +27,9 @@ import {
 	SiTypescript,
 	SiVercel,
 	SiZod,
+	SiMantine,
+	SiBun,
+	SiHono,
 } from "react-icons/si";
 import { VscAzure } from "react-icons/vsc";
 
@@ -72,6 +75,10 @@ const ICON_MAP: Record<string, TechnologyIconEntry> = {
 	jest: { icon: SiJest, color: "#C92A2A" },
 	pytest: { icon: SiPytest, color: "#E67700" },
 	zod: { icon: SiZod, color: "#228BE6" },
+	mantine: { icon: SiMantine, color: "#339AF0" },
+	"mantine ui": { icon: SiMantine, color: "#339AF0" },
+	bun: { icon: SiBun, color: "#FBF0DF" },
+	hono: { icon: SiHono, color: "#FF5B11" },
 };
 
 export function normalizeTechnologyName(name: string) {

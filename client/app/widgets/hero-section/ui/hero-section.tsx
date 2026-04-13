@@ -3,6 +3,7 @@ import {
 	Box,
 	Button,
 	Container,
+	Divider,
 	Group,
 	Stack,
 	Text,
@@ -21,6 +22,18 @@ import { fadeInUp, staggerContainer } from "~/shared/lib/motion";
 export function HeroSection() {
 	return (
 		<Box className="hero-shell">
+			<motion.div
+				className="hero-orbit hero-orbit-left"
+				initial={{ opacity: 0, scale: 0.8 }}
+				animate={{ opacity: 1, scale: 1 }}
+				transition={{ duration: 1.2, ease: "easeOut", delay: 0.15 }}
+			/>
+			<motion.div
+				className="hero-orbit hero-orbit-right"
+				initial={{ opacity: 0, scale: 0.8 }}
+				animate={{ opacity: 1, scale: 1 }}
+				transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+			/>
 			<Container size={1120} h="100%">
 				<motion.div
 					variants={staggerContainer}
@@ -42,13 +55,19 @@ export function HeroSection() {
 						</Badge>
 
 						<motion.div variants={fadeInUp}>
-							<Stack gap="md" align="center">
+							<Stack gap="lg" align="center">
+								<Text className="hero-eyebrow">
+									GitHub / Full-stack Engineer / Portfolio
+								</Text>
 								<Title order={1} className="hero-title">
 									福田 朔哉
 								</Title>
+								<Text className="hero-handle">sakuya10969</Text>
+								<Divider className="hero-divider" />
 								<Text c="dimmed" ta="center" maw={560} size="lg">
 									TypeScript・Python・Next.js・NestJS・FastAPI・PostgreSQL
-									を主軸に、 設計から実装まで一貫して担うエンジニアです。
+									を主軸に、設計から実装まで一貫して担い、
+									プロダクト全体の密度を上げる実装を続けています。
 								</Text>
 							</Stack>
 						</motion.div>

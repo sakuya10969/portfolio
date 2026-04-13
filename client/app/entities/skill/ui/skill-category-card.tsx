@@ -4,8 +4,8 @@ import { TechnologyBadge } from "~/shared/ui/technology-badge";
 
 const proficiencyMeta = {
 	beginner: { color: "gray", value: 25, label: "初級" },
-	intermediate: { color: "lime", value: 55, label: "中級" },
-	advanced: { color: "cyan", value: 78, label: "上級" },
+	intermediate: { color: "blue", value: 55, label: "中級" },
+	advanced: { color: "indigo", value: 78, label: "上級" },
 	expert: { color: "blue", value: 100, label: "エキスパート" },
 } as const;
 
