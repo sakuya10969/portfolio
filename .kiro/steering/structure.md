@@ -1,136 +1,256 @@
 # 構造方針
 
-## FSD 採用理由
+## モノレポ構成
 
-Feature-Sliced Design（FSD）を採用する理由は以下の通り。
+プロジェクトは `client/` と `server/` の2パッケージで構成するモノレポとする。
+
+```
+portfolio/
+├── client/          # フロントエンド（React Router v7 + Mantine UI）
+├── server/          # バックエンド API（Hono + Drizzle ORM）
+├── docs/            # プロジェクトドキュメント
+├── .kiro/           # Kiro 設定・steering
+├── docker-compose.yml
+├── DESIGN.md        # デザインシステム定義
+```
+
+## フロントエンド: FSD（Feature-Sliced Design）
+
+### FSD 採用理由
 
 - ページ・機能・ドメイン・共通基盤の責務が明確に分離される
 - 「この処理はどこに置くか」の判断基準がレイヤーとスライスで一意に決まる
 - コンポーネントの再利用範囲と依存方向が制約されるため、暗黙の結合を防げる
-- ポートフォリオサイトは小規模だが、Project / Skill / Experience など複数のドメインエンティティを扱うため、pages/components/lib の平坦な構造では責務が曖昧になりやすい
+- 複数のドメインエンティティ（Project / Skill / Experience 等）を扱うため、平坦な構造では責務が曖昧になりやすい
 - 将来的な機能追加（ブログ、管理画面等）にも構造を壊さず対応できる
 
-## レイヤー定義と責務
+### レイヤー定義と責務
 
-FSD のレイヤーは上位から下位への一方向依存を原則とする。上位レイヤーは下位レイヤーに依存できるが、逆方向の依存は禁止する。
+FSD のレイヤーは上位から下位への一方向依存を原則とする。逆方向の依存は禁止。
 
 ```
 app → pages → widgets → features → entities → shared
 ```
 
-### app レイヤー
+#### app レイヤー
 
-- Next.js App Router に必要なアプリケーションエントリを担う
-- `src/app/` ディレクトリに配置する
-- layout.tsx、providers、global styles、route segment 管理を置く
+- React Router のアプリケーションエントリを担う
+- `client/app/` ディレクトリに配置する
+- root.tsx（MantineProvider, レイアウト）、routes.ts（ルート定義）、グローバル CSS を置く
 - ルーティングと大枠の初期設定が責務。ドメインロジックは書かない
-- 各 route segment の `page.tsx` は pages レイヤーのコンポーネントを呼び出すだけにする
 
-### pages レイヤー
+#### pages レイヤー
 
 - 画面単位の構成を担う
-- `src/pages/` ディレクトリに配置する（Next.js の Pages Router とは無関係。FSD の pages レイヤー）
-- ルートごとのページ構成を組み立てる
+- `client/app/pages/` ディレクトリに配置する
+- 各ルートに対応するページコンポーネントを配置
 - 複数の widgets / features を合成してページ全体を構築する
-- データ取得のオーケストレーションもここで行う（Server Component として）
+- React Router の loader / action によるデータ取得もここで行う
 
-### widgets レイヤー
+#### widgets レイヤー
 
 - ページを構成する比較的大きな UI ブロックを担う
-- `src/widgets/` ディレクトリに配置する
-- 例：hero-section, project-list-section, skill-section, experience-section, contact-section
+- `client/app/widgets/` ディレクトリに配置する
+- 例：hero-section, project-list-section, skill-section, experience-section, contact-section, header, footer
 - 複数の entities / features を組み合わせた表示単位
-- ページ固有のレイアウト調整はここで吸収する
 
-### features レイヤー
+#### features レイヤー
 
 - ユーザー操作や意味のある機能単位を担う
-- `src/features/` ディレクトリに配置する
-- 例：project-filter, contact-form, theme-toggle, mobile-menu
+- `client/app/features/` ディレクトリに配置する
+- 例：project-filter, contact-form, color-scheme-toggle, mobile-menu
 - UI とロジックを機能単位でまとめる
 - 状態管理、イベントハンドリング、API 呼び出しを含む
 
-### entities レイヤー
+#### entities レイヤー
 
 - ドメイン上の主要データ表現を担う
-- `src/entities/` ディレクトリに配置する
+- `client/app/entities/` ディレクトリに配置する
 - 例：project, skill, experience, profile
 - 型定義、UI 断片（カード、バッジ等）、mapper、軽いロジックを整理する
-- ビジネスロジックは最小限。データの表現と変換が中心
 
-### shared レイヤー
+#### shared レイヤー
 
 - 汎用 UI、ユーティリティ、API client、schema、config、定数を担う
-- `src/shared/` ディレクトリに配置する
+- `client/app/shared/` ディレクトリに配置する
 - どのレイヤーからも参照される共通基盤
 - ドメイン知識を含まない
 
-### processes レイヤー
+### FSD と React Router の整合方針
 
-- 今回は必須レイヤーとして固定しない
-- 複数 feature を跨ぐ長いユーザーフロー（例：多段階フォーム、ウィザード）が明確になった段階で導入を検討する
-- 導入する場合は `src/processes/` に配置する
+React Router v7 のファイルベースルーティングと FSD のレイヤー構造を以下のように両立させる。
 
-## FSD と App Router の整合方針
-
-Next.js App Router のファイルベースルーティングと FSD のレイヤー構造を以下のように両立させる。
-
-- ルーティングは Next.js の `src/app/` に従う。`app/` 配下には route segment（`page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`）を置く
-- `app/` の `page.tsx` は薄いエントリポイントとし、FSD の `pages/` レイヤーのコンポーネントを import して呼び出すだけにする
-- 画面の実体ロジック・構成は FSD の `pages/` や `widgets/` に寄せる
-- `app/` にドメイン知識を直接書き込まない
-- Route Handlers（`app/api/`）は例外的に `app/` 内に置く。ただし、データ取得ロジック自体は shared や entities に切り出す
+- ルート定義は `client/app/routes.ts` で管理する
+- 各ルートファイルは `client/app/routes/` に配置し、pages レイヤーのコンポーネントを呼び出す薄いエントリポイントとする
+- loader / action はルートファイル内に定義し、pages レイヤーのデータ取得関数を呼ぶ
+- 画面の実体ロジック・構成は FSD の pages / widgets に寄せる
 
 ```
-src/app/page.tsx          → import { HomePage } from "@/pages/home"
-src/app/about/page.tsx    → import { AboutPage } from "@/pages/about"
-src/app/projects/page.tsx → import { ProjectsPage } from "@/pages/projects"
+client/app/routes/home.tsx       → import { HomePage } from "~/pages/home"
+client/app/routes/about.tsx      → import { AboutPage } from "~/pages/about"
+client/app/routes/projects.tsx   → import { ProjectsPage } from "~/pages/projects"
 ```
 
-## shared レイヤーの内部構成
-
-shared は以下のサブディレクトリで責務を分離する。
+### shared レイヤーの内部構成
 
 | ディレクトリ | 責務 |
 |---|---|
-| `shared/ui` | shadcn/ui ベースコンポーネント、汎用 UI 部品 |
-| `shared/lib` | Prisma client、汎用ヘルパー関数、ユーティリティ |
-| `shared/config` | 環境変数管理、サイト設定定数 |
-| `shared/api` | SWR fetcher、API client、レスポンス型 |
+| `shared/ui` | Mantine ベースの汎用 UI コンポーネント |
+| `shared/lib` | 汎用ヘルパー関数、ユーティリティ、Framer Motion プリセット |
+| `shared/config` | サイト設定定数、環境変数管理 |
+| `shared/api` | Orval 生成の API クライアント、Axios インスタンス |
 | `shared/types` | 共通型定義（ドメイン非依存） |
 
-- `shared/lib/prisma.ts` に Prisma client のシングルトンインスタンスを配置する
-- `shared/lib/motion.ts` に Framer Motion の共通 variants / transition presets を配置する
-- `shared/api/fetcher.ts` に SWR 用の汎用 fetcher を配置する
-- Zod スキーマのうちドメイン非依存なもの（メールアドレス形式等）は `shared/lib` に置く。ドメイン固有のスキーマは entities に置く
-
-## 各スライスの内部構成
-
-FSD の各スライスは以下の構成を基本とする。
+### 各スライスの内部構成
 
 ```
-src/entities/project/
+client/app/entities/project/
 ├── index.ts          # public API（re-export）
-├── ui/               # UI 断片（ProjectCard, ProjectBadge 等）
-├── model/            # 型定義、mapper、軽いロジック
-└── api/              # データ取得関数（必要な場合）
+├── ui/               # UI 断片（ProjectCard 等）
+├── model/            # 型定義、mapper
+└── api/              # データ取得関数（TanStack Query hooks 等）
 ```
 
 - `index.ts` でスライスの公開 API を制御する。外部からは `index.ts` 経由でのみ import する
-- スライス内部の直接参照は禁止する（例：`@/entities/project/ui/ProjectCard` ではなく `@/entities/project` から import）
+- スライス内部の直接参照は禁止する
 
-## データアクセス方針
+## バックエンド: レイヤードアーキテクチャ
 
-- DB アクセスは Prisma に集約する
-- Prisma client は `src/shared/lib/prisma.ts` にまとめる
-- データ取得関数は責務ごとに整理する
-  - Project の取得 → `src/entities/project/api/`
-  - Skill の取得 → `src/entities/skill/api/`
-  - Experience の取得 → `src/entities/experience/api/`
-  - Profile の取得 → `src/entities/profile/api/`
-- Server Component からは entities の取得関数を直接呼ぶ
-- Client Component からは SWR + Route Handler 経由で取得する
-- Route Handlers から DB にアクセスする場合も、entities の取得関数を再利用する
+### 採用理由
+
+- Routes → Services → DB の責務分離が明確
+- 各レイヤーの責務が単純で理解しやすい
+- ポートフォリオ API の規模に適した軽量な構成
+
+### レイヤー定義
+
+| レイヤー | ディレクトリ | 責務 |
+|---|---|---|
+| Routes | `server/src/routes/` | HTTP ハンドリング、リクエスト/レスポンス変換、バリデーション |
+| Services | `server/src/services/` | ビジネスロジック、データ取得・加工 |
+| DB / Schema | `server/src/db/` | Drizzle スキーマ定義、DB クライアント、シード |
+| Lib | `server/src/lib/` | 共通ユーティリティ（レスポンスヘルパー等） |
+| OpenAPI | `server/src/openapi/` | OpenAPI ドキュメント定義、スキーマ |
+
+### ディレクトリ構成
+
+```
+server/
+├── src/
+│   ├── index.ts              # エントリポイント（サーバー起動）
+│   ├── app.ts                # Hono アプリ構築（CORS, ルーティングマウント）
+│   ├── routes/               # ルートハンドラ
+│   │   ├── profile.ts
+│   │   ├── projects.ts
+│   │   ├── skills.ts
+│   │   ├── experiences.ts
+│   │   └── contact.ts
+│   ├── services/             # ビジネスロジック・DB アクセス
+│   │   ├── profile.service.ts
+│   │   ├── project.service.ts
+│   │   ├── skill.service.ts
+│   │   ├── experience.service.ts
+│   │   └── contact.service.ts
+│   ├── db/
+│   │   ├── index.ts          # Drizzle client インスタンス
+│   │   ├── schema/           # テーブル定義、Enum、リレーション
+│   │   └── seed.ts           # シードスクリプト
+│   ├── openapi/
+│   │   ├── document.ts       # OpenAPI ドキュメント生成
+│   │   └── schemas.ts        # OpenAPI スキーマ定義
+│   └── lib/
+│       └── response.ts       # API レスポンスヘルパー
+├── openapi/
+│   └── openapi.json          # 生成された OpenAPI スキーマ
+├── scripts/
+│   └── generate-openapi.ts   # OpenAPI 生成スクリプト
+├── drizzle.config.ts
+└── package.json
+```
+
+## データフロー方針
+
+### 初期表示（React Router loader）
+
+```
+routes/*.tsx (loader) → fetch(Hono API) → JSON
+                      → pages/* → widgets/* → レンダリング
+```
+
+- 初期表示データは React Router の loader でサーバーサイド取得する
+- loader で取得したデータを useLoaderData() でコンポーネントに渡す
+
+### クライアント再取得（TanStack Query）
+
+```
+features/* → TanStack Query → Axios → Hono API → JSON → UI 更新
+```
+
+- インタラクティブな再取得（フィルタ変更等）は TanStack Query を使う
+- Orval 生成の API クライアントを通じて型安全にデータ取得する
+
+### フォーム送信
+
+```
+Mantine Form → Axios → Hono API POST → Zod validation → Drizzle → PostgreSQL
+             → 成功/エラーレスポンス → UI フィードバック
+```
+
+## 想定ディレクトリ構成（フロントエンド）
+
+```
+client/
+├── app/
+│   ├── root.tsx                  # MantineProvider, レイアウト
+│   ├── routes.ts                 # ルート定義
+│   ├── app.css                   # グローバル CSS
+│   ├── routes/                   # React Router ルートファイル
+│   │   ├── home.tsx
+│   │   ├── about.tsx
+│   │   ├── projects.tsx
+│   │   ├── project-detail.tsx
+│   │   ├── skills.tsx
+│   │   ├── experience.tsx
+│   │   └── contact.tsx
+│   ├── pages/                    # pages レイヤー（FSD）
+│   │   ├── home/
+│   │   ├── about/
+│   │   ├── projects/
+│   │   ├── project-detail/
+│   │   ├── skills/
+│   │   ├── experience/
+│   │   └── contact/
+│   ├── widgets/                  # widgets レイヤー
+│   │   ├── hero-section/
+│   │   ├── project-list-section/
+│   │   ├── skill-section/
+│   │   ├── experience-section/
+│   │   ├── contact-section/
+│   │   ├── header/
+│   │   └── footer/
+│   ├── features/                 # features レイヤー
+│   │   ├── project-filter/
+│   │   ├── contact-form/
+│   │   ├── color-scheme-toggle/
+│   │   └── mobile-menu/
+│   ├── entities/                 # entities レイヤー
+│   │   ├── project/
+│   │   ├── skill/
+│   │   ├── experience/
+│   │   └── profile/
+│   └── shared/                   # shared レイヤー
+│       ├── ui/
+│       ├── lib/
+│       ├── config/
+│       ├── api/
+│       └── types/
+├── public/
+├── orval.config.ts
+├── react-router.config.ts
+├── vite.config.ts
+├── tsconfig.json
+└── package.json
+```
 
 ## 命名規則
 
@@ -142,113 +262,8 @@ src/entities/project/
 | 関数 export | camelCase | `getProjects`, `formatDate` |
 | 型 / interface | PascalCase | `Project`, `SkillCategory` |
 | 定数 | UPPER_SNAKE_CASE | `SITE_NAME`, `MAX_PROJECTS_PER_PAGE` |
-| Route Handler | `route.ts` | `app/api/projects/route.ts` |
-| Prisma model | 単数形 PascalCase | `Project`, `Technology` |
+| Hono ルートファイル | kebab-case | `projects.ts`, `contact.ts` |
+| Drizzle テーブル | snake_case 複数形 | `projects`, `skill_categories` |
 | Zod スキーマ | camelCase + Schema 接尾辞 | `contactFormSchema`, `projectFilterSchema` |
-| カスタムフック | camelCase + use 接頭辞 | `useProjects`, `useThemeToggle` |
-
-## データフロー方針
-
-### 初期表示（Server Component）
-
-```
-Server Component → entities/*/api/ → Prisma → PostgreSQL
-                 → widgets/*/ui/ → レンダリング
-```
-
-- 初期表示データはサーバー側取得を優先する
-- pages レイヤーの Server Component でデータを取得し、widgets / entities に props で渡す
-
-### クライアント再取得（Client Component）
-
-```
-Client Component → SWR → Route Handler → entities/*/api/ → Prisma → PostgreSQL
-                 → UI 更新
-```
-
-- インタラクティブな再取得（フィルタ変更等）だけ SWR を使う
-- SWR のキャッシュキーは Route Handler のパスに合わせる
-
-### フォーム送信
-
-```
-React Hook Form → fetch → Route Handler → Zod validation → Prisma → PostgreSQL
-               → 成功/エラーレスポンス → UI フィードバック
-```
-
-- Contact form などの送信は Route Handler 経由にする
-- 更新後は SWR mutate によって関連データを再検証可能な構成にする
-
-## 想定ディレクトリ構成
-
-```
-src/
-├── app/                          # app レイヤー（Next.js App Router）
-│   ├── layout.tsx
-│   ├── page.tsx
-│   ├── globals.css
-│   ├── providers.tsx
-│   ├── about/
-│   │   └── page.tsx
-│   ├── projects/
-│   │   ├── page.tsx
-│   │   └── [slug]/
-│   │       └── page.tsx
-│   ├── skills/
-│   │   └── page.tsx
-│   ├── experience/
-│   │   └── page.tsx
-│   ├── contact/
-│   │   └── page.tsx
-│   └── api/
-│       ├── projects/
-│       │   ├── route.ts
-│       │   └── [slug]/
-│       │       └── route.ts
-│       ├── skills/
-│       │   └── route.ts
-│       ├── experiences/
-│       │   └── route.ts
-│       └── contact/
-│           └── route.ts
-├── pages/                        # pages レイヤー（FSD）
-│   ├── home/
-│   ├── about/
-│   ├── projects/
-│   ├── project-detail/
-│   ├── skills/
-│   ├── experience/
-│   └── contact/
-├── widgets/                      # widgets レイヤー
-│   ├── hero-section/
-│   ├── project-list-section/
-│   ├── skill-section/
-│   ├── experience-section/
-│   ├── contact-section/
-│   ├── header/
-│   └── footer/
-├── features/                     # features レイヤー
-│   ├── project-filter/
-│   ├── contact-form/
-│   ├── theme-toggle/
-│   └── mobile-menu/
-├── entities/                     # entities レイヤー
-│   ├── project/
-│   ├── skill/
-│   ├── experience/
-│   └── profile/
-└── shared/                       # shared レイヤー
-    ├── ui/
-    ├── lib/
-    ├── config/
-    ├── api/
-    └── types/
-
-prisma/
-├── schema.prisma
-├── seed.ts
-└── migrations/
-
-public/
-docker-compose.yml
-```
+| カスタムフック | camelCase + use 接頭辞 | `useProjects`, `useColorScheme` |
+| TanStack Query キー | camelCase 配列 | `['projects', { category }]` |
