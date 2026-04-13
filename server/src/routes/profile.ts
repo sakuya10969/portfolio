@@ -37,7 +37,8 @@ profile.openapi(getProfileRoute, async (c) => {
     const data = await getProfile();
     if (!data) return errorResponse(c, 'プロフィールが見つかりません', 'NOT_FOUND', 404);
     return successResponse(c, data);
-  } catch {
+  } catch (error) {
+    console.error('Failed to fetch profile', error);
     return errorResponse(c, 'プロフィールの取得に失敗しました', 'FETCH_ERROR');
   }
 });

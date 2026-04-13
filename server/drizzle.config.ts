@@ -9,7 +9,7 @@ const envFile =
 config({ path: envFile });
 
 export default defineConfig({
-  schema: "./src/schema.ts",
+  schema: "./src/db/schema/index.ts",
   out: "./migrations",
   dialect: "postgresql",
   dbCredentials: {
