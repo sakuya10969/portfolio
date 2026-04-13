@@ -3,13 +3,13 @@
 ## アプリ概要
 
 エンジニアとしての技術力・設計力・制作実績を外部に伝えるためのポートフォリオサイト。
-フロントエンドは Next.js（App Router）、バックエンド API は Hono（`server/` 配下）、ORM / DB アクセスは Drizzle で構成する。
+フロントエンドは React Router v7 + Mantine UI（`client/` 配下）、バックエンド API は Hono + Drizzle ORM（`server/` 配下）で構成する。
 
 ## システム構成
 
 | レイヤー | 技術 | 責務 |
 |---|---|---|
-| フロントエンド | Next.js (App Router) | SSR/SSG、ルーティング、UI レンダリング、Client Components によるインタラクション |
+| フロントエンド | React Router v7 + Mantine UI | SSR、ルーティング、UI レンダリング、インタラクション |
 | バックエンド API | Hono (`server/src/`) | HTTP ハンドリング、リクエストバリデーション、レスポンス整形 |
 | ORM / DB アクセス | Drizzle ORM | 型安全なクエリ生成、スキーマ定義、マイグレーション管理 |
 | データベース | PostgreSQL (Neon) | リレーショナルデータストア |
@@ -34,7 +34,6 @@
 - 代表プロジェクト（2〜3件）のハイライト表示
 - 技術スタック概要
 - 各セクションへの導線リンク
-- イントロカウントダウン演出（初回訪問時）
 
 ユーザーができること:
 - 代表プロジェクトのカードをクリックして詳細ページへ遷移
@@ -56,8 +55,8 @@
 制作物一覧をカード形式で表示し、フィルタリング機能を提供する。
 
 - プロジェクトカード一覧表示
-- カテゴリフィルタ（SWR で API 再取得）
-- 技術フィルタ（SWR で API 再取得）
+- カテゴリフィルタ（TanStack Query で API 再取得）
+- 技術フィルタ（TanStack Query で API 再取得）
 
 ユーザーができること:
 - カテゴリ・技術でプロジェクトを絞り込む
@@ -105,7 +104,7 @@
 問い合わせフォームを提供する。
 
 - フォーム入力（名前、メール、件名、本文）
-- Zod バリデーション（クライアント + サーバー）
+- Mantine Form + Zod バリデーション
 - 送信中のローディング状態表示
 - 送信成功 / エラーのフィードバック
 
@@ -119,23 +118,22 @@
 
 | 機能 | 説明 | FSD 配置 |
 |---|---|---|
-| プロジェクトフィルタ | カテゴリ・技術による絞り込み。SWR で Hono API を再取得 | `features/project-filter` |
-| コンタクトフォーム | React Hook Form + Zod。Hono API 経由で DB 保存 | `features/contact-form` |
-| テーマ切替 | light / dark / system。next-themes で管理 | `features/theme-toggle` |
-| モバイルメニュー | ハンバーガーメニューの開閉。AnimatePresence | `features/mobile-menu` |
-| イントロカウントダウン | 初回訪問時のカウントダウン演出 | `features/intro-countdown` |
+| プロジェクトフィルタ | カテゴリ・技術による絞り込み。TanStack Query で Hono API を再取得 | `features/project-filter` |
+| コンタクトフォーム | Mantine Form + Zod。Hono API 経由で DB 保存 | `features/contact-form` |
+| カラースキーム切替 | Mantine UI のカラースキーム機能で light / dark 切替 | `features/color-scheme-toggle` |
+| モバイルメニュー | Mantine Drawer によるモバイルナビゲーション | `features/mobile-menu` |
 
 ## UI / 表示機能
 
 | 機能 | 説明 |
 |---|---|
-| レスポンシブレイアウト | モバイルファースト設計、デスクトップ拡張 |
-| ダークモード | CSS 変数ベースのテーマ切替（light / dark / system） |
+| レスポンシブレイアウト | モバイルファースト設計、デスクトップ拡張（Mantine Grid / SimpleGrid） |
+| カラースキーム | Mantine UI のテーマシステムによる light / dark 切替 |
 | スクロールアニメーション | セクション出現時の fade-in（Framer Motion） |
 | Hero アニメーション | 初回表示の fade-in + slide-up |
 | カードホバー | Project card の scale + shadow |
-| ローディング状態 | 各ページの loading.tsx / スケルトン UI |
-| エラー状態 | 各ページの error.tsx / ユーザー向けエラー表示 |
+| ローディング状態 | スケルトン UI / Mantine Loader |
+| エラー状態 | React Router ErrorBoundary / ユーザー向けエラー表示 |
 | 空状態 | データが存在しない場合の表示 |
 
 ---
