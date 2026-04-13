@@ -1,0 +1,53 @@
+export const technologiesData = [
+  // 言語
+  { name: 'TypeScript', sortOrder: 1 },
+  { name: 'Python', sortOrder: 2 },
+  { name: 'PHP', sortOrder: 3 },
+  { name: 'Go', sortOrder: 4 },
+  { name: 'SQL', sortOrder: 5 },
+  // フロントエンド
+  { name: 'React', sortOrder: 10 },
+  { name: 'Next.js', sortOrder: 11 },
+  { name: 'React Router', sortOrder: 12 },
+  { name: 'Mantine UI', sortOrder: 13 },
+  { name: 'Tailwind CSS', sortOrder: 14 },
+  { name: 'shadcn/ui', sortOrder: 15 },
+  { name: 'Framer Motion', sortOrder: 16 },
+  { name: 'GSAP', sortOrder: 17 },
+  { name: 'Storybook', sortOrder: 18 },
+  { name: 'TanStack Query', sortOrder: 19 },
+  // バックエンド
+  { name: 'Node.js', sortOrder: 20 },
+  { name: 'Hono', sortOrder: 21 },
+  { name: 'NestJS', sortOrder: 22 },
+  { name: 'FastAPI', sortOrder: 23 },
+  { name: 'Django', sortOrder: 24 },
+  { name: 'Laravel', sortOrder: 25 },
+  { name: 'GraphQL', sortOrder: 26 },
+  { name: 'Hasura', sortOrder: 27 },
+  { name: 'Bun', sortOrder: 28 },
+  // データベース / ORM
+  { name: 'PostgreSQL', sortOrder: 30 },
+  { name: 'MySQL', sortOrder: 31 },
+  { name: 'SQL Server', sortOrder: 32 },
+  { name: 'Drizzle ORM', sortOrder: 33 },
+  { name: 'Prisma', sortOrder: 34 },
+  { name: 'TypeORM', sortOrder: 35 },
+  { name: 'SQLAlchemy', sortOrder: 36 },
+  { name: 'Alembic', sortOrder: 37 },
+  // クラウド / インフラ
+  { name: 'AWS', sortOrder: 40 },
+  { name: 'Google Cloud', sortOrder: 41 },
+  { name: 'Microsoft Azure', sortOrder: 42 },
+  { name: 'Neon', sortOrder: 43 },
+  { name: 'Docker', sortOrder: 44 },
+  // テスト / ツール
+  { name: 'Jest', sortOrder: 50 },
+  { name: 'pytest', sortOrder: 51 },
+  { name: 'Zod', sortOrder: 52 },
+  { name: 'Orval', sortOrder: 53 },
+  { name: 'Biome', sortOrder: 54 },
+  // AI / ML
+  { name: 'YOLO', sortOrder: 60 },
+  { name: 'Microsoft Foundry AI', sortOrder: 61 },
+] as const;
