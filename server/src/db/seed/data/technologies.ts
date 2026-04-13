@@ -30,7 +30,7 @@ export const technologiesData = [
   { name: 'PostgreSQL', sortOrder: 30 },
   { name: 'MySQL', sortOrder: 31 },
   { name: 'SQL Server', sortOrder: 32 },
-  { name: 'Drizzle ORM', sortOrder: 33 },
+  { name: 'Drizzle', sortOrder: 33 },
   { name: 'Prisma', sortOrder: 34 },
   { name: 'TypeORM', sortOrder: 35 },
   { name: 'SQLAlchemy', sortOrder: 36 },
