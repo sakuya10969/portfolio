@@ -36,8 +36,21 @@ export const httpClient = async <T>(
 				}
 			: urlOrConfig;
 
-	const response: AxiosResponse<T> = await axios(config);
-	return response.data;
+	const response: AxiosResponse = await axios(config);
+
+	// Orvalが生成する型は { data: ServerResponse, status: number, headers: Headers } という形式
+	// ServerResponseは既にサーバーから { data: ... } 形式で返ってくる
+	// そのため、{ data: ServerResponse, ... } という形にする必要がある
+	return {
+		data: response.data,
+		status: response.status,
+		headers: new Headers(
+			Object.entries(response.headers).map(([key, value]) => [
+				key,
+				String(value),
+			]),
+		),
+	} as T;
 };
 
 export default httpClient;
