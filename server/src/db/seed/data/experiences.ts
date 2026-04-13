@@ -15,7 +15,7 @@ export const experiencesData: ExperienceSeedData[] = [
     role: '学士課程',
     description:
       '数学科にて論理的思考力と抽象化能力を培った。数理モデリングやアルゴリズムの基礎を学び、ソフトウェアエンジニアリングへの応用力を身につけた。在学中からエンジニアインターンに積極的に参加し、実務経験を並行して積んだ。',
-    startDate: '2022-04-01',
+    startDate: '2021-04-01',
     endDate: '2026-03-31',
     sortOrder: 1,
   },
