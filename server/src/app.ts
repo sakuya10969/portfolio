@@ -1,5 +1,6 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
 import profile from './routes/profile';
 import projects from './routes/projects';
 import skills from './routes/skills';
@@ -15,6 +16,8 @@ export function createApp() {
       }
     },
   });
+
+  app.use('*', logger());
 
   app.use(
     '*',
