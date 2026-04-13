@@ -15,8 +15,11 @@ import {
 } from "@tabler/icons-react";
 import { FaGithub } from "react-icons/fa6";
 import { NavLink } from "react-router";
-import type { Project, ProjectLinkType } from "~/shared/api/generated/models";
+import { useGetApiProjectsSlug } from "~/shared/api/generated/endpoints/projects/projects";
+import type { Project, ProjectLink, ProjectLinkType, Technology } from "~/shared/api/generated/models";
+import { extractApiData } from "~/shared/lib/api";
 import { PageSection } from "~/shared/ui/page-section";
+import { ErrorState, LoadingState } from "~/shared/ui/states";
 import { TechnologyBadge } from "~/shared/ui/technology-badge";
 
 const linkIcons: Record<
@@ -29,7 +32,16 @@ const linkIcons: Record<
 	other: IconExternalLink,
 };
 
-export function ProjectDetailPage({ project }: { project: Project }) {
+export function ProjectDetailPage({ slug }: { slug: string }) {
+	const { data, isLoading, isError } = useGetApiProjectsSlug(slug);
+
+	if (isLoading) return <LoadingState />;
+	if (isError)
+		return <ErrorState message="プロジェクトの取得に失敗しました。" />;
+
+	const project = extractApiData<Project>(data);
+	if (!project) return <ErrorState message="プロジェクトが見つかりません。" />;
+
 	const sections = [
 		{ title: "背景・制作動機", content: project.background },
 		{ title: "設計・アーキテクチャ", content: project.architecture },
@@ -56,7 +68,7 @@ export function ProjectDetailPage({ project }: { project: Project }) {
 					<Badge color="blue" variant="light">
 						{project.category.name}
 					</Badge>
-					{project.technologies.map((technology) => (
+					{project.technologies.map((technology: Technology) => (
 						<TechnologyBadge
 							key={technology.id}
 							name={technology.name}
@@ -67,7 +79,7 @@ export function ProjectDetailPage({ project }: { project: Project }) {
 
 				{project.links.length ? (
 					<Group>
-						{project.links.map((link) => {
+						{project.links.map((link: ProjectLink) => {
 							const Icon = linkIcons[link.type] ?? IconExternalLink;
 
 							return (

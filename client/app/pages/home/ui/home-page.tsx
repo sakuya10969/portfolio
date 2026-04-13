@@ -2,22 +2,53 @@ import { Button, Group } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import { NavLink } from "react-router";
 import { ProjectCard } from "~/entities/project";
+import { useGetApiProfile } from "~/shared/api/generated/endpoints/profile/profile";
+import { useGetApiProjects } from "~/shared/api/generated/endpoints/projects/projects";
+import { useGetApiSkills } from "~/shared/api/generated/endpoints/skills/skills";
 import type {
 	Profile,
 	Project,
 	SkillCategoryWithSkills,
 } from "~/shared/api/generated/models";
+import { extractApiData } from "~/shared/lib/api";
 import { PageSection } from "~/shared/ui/page-section";
+import { ErrorState, LoadingState } from "~/shared/ui/states";
 import { TechnologyBadge } from "~/shared/ui/technology-badge";
 import { HeroSection } from "~/widgets/hero-section";
 
-type Props = {
-	profile: Profile;
-	projects: Project[];
-	skillCategories: SkillCategoryWithSkills[];
-};
+export function HomePage() {
+	const profileQuery = useGetApiProfile();
+	const projectsQuery = useGetApiProjects();
+	const skillsQuery = useGetApiSkills();
 
-export function HomePage({ profile, projects, skillCategories }: Props) {
+	const isLoading =
+		profileQuery.isLoading || projectsQuery.isLoading || skillsQuery.isLoading;
+	const isError =
+		profileQuery.isError || projectsQuery.isError || skillsQuery.isError;
+
+	if (isLoading) {
+		return (
+			<>
+				<HeroSection />
+				<LoadingState />
+			</>
+		);
+	}
+
+	if (isError) {
+		return (
+			<>
+				<HeroSection />
+				<ErrorState message="データの取得に失敗しました。" />
+			</>
+		);
+	}
+
+	const profile = extractApiData<Profile>(profileQuery.data);
+	const projects = extractApiData<Project[]>(projectsQuery.data) ?? [];
+	const skillCategories =
+		extractApiData<SkillCategoryWithSkills[]>(skillsQuery.data) ?? [];
+
 	const technologies = [
 		...new Set(
 			skillCategories.flatMap((category) =>
@@ -29,9 +60,11 @@ export function HomePage({ profile, projects, skillCategories }: Props) {
 	return (
 		<>
 			<HeroSection />
-			<PageSection title="About Snapshot" description={profile.title}>
-				<p className="rich-text">{profile.bio}</p>
-			</PageSection>
+			{profile ? (
+				<PageSection title="About Snapshot" description={profile.title}>
+					<p className="rich-text">{profile.bio}</p>
+				</PageSection>
+			) : null}
 			<PageSection
 				title="注目のプロジェクト"
 				description="最近取り組んだ代表的な作品を紹介します"

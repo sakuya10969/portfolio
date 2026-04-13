@@ -1,43 +1,20 @@
 import { Badge, Button, Group, Stack, Text } from "@mantine/core";
+import { NavLink } from "react-router";
 import { ProjectCard } from "~/entities/project";
-import { useGetApiProjects } from "~/shared/api/generated/endpoints/projects/projects";
-import type {
-	Project,
-	ProjectCategory,
-	ProjectListResponse,
-} from "~/shared/api/generated/models";
-import { EmptyState, ErrorState, LoadingState } from "~/shared/ui/states";
+import type { Project, ProjectCategory } from "~/shared/api/generated/models";
+import { EmptyState } from "~/shared/ui/states";
 
 type Props = {
 	categories: ProjectCategory[];
-	initialCategory?: string;
-	initialProjects: ProjectListResponse["data"];
+	activeCategory?: string;
+	projects: Project[];
 };
 
 export function ProjectFilter({
 	categories,
-	initialCategory,
-	initialProjects,
+	activeCategory = "",
+	projects,
 }: Props) {
-	const activeCategory = initialCategory ?? "";
-	const query = useGetApiProjects(
-		activeCategory ? { category: activeCategory } : undefined,
-		{
-			query: {
-				initialData: {
-					data: {
-						data: initialProjects,
-					},
-					headers: new Headers(),
-					status: 200,
-				},
-			},
-		},
-	);
-
-	const projects: Project[] =
-		query.data?.status === 200 ? query.data.data.data : [];
-
 	return (
 		<Stack gap="xl">
 			<Stack gap="sm">
@@ -46,8 +23,8 @@ export function ProjectFilter({
 				</Text>
 				<Group gap="sm">
 					<Badge
-						component="a"
-						href="/projects"
+						component={NavLink}
+						to="/projects"
 						size="lg"
 						variant={!activeCategory ? "filled" : "light"}
 						color={!activeCategory ? "blue" : "gray"}
@@ -59,8 +36,8 @@ export function ProjectFilter({
 					{categories.map((category) => (
 						<Badge
 							key={category.id}
-							component="a"
-							href={`/projects?category=${category.slug}`}
+							component={NavLink}
+							to={`/projects?category=${category.slug}`}
 							size="lg"
 							variant={activeCategory === category.slug ? "filled" : "light"}
 							color={activeCategory === category.slug ? "blue" : "gray"}
@@ -72,8 +49,8 @@ export function ProjectFilter({
 					))}
 					{activeCategory ? (
 						<Button
-							component="a"
-							href="/projects"
+							component={NavLink}
+							to="/projects"
 							variant="subtle"
 							color="gray"
 							size="xs"
@@ -84,20 +61,15 @@ export function ProjectFilter({
 				</Group>
 			</Stack>
 
-			{query.isLoading ? <LoadingState /> : null}
-			{query.isError ? (
-				<ErrorState message="プロジェクトの取得に失敗しました。" />
-			) : null}
-			{!query.isLoading && !query.isError && projects.length === 0 ? (
+			{projects.length === 0 ? (
 				<EmptyState message="該当するプロジェクトがありません。" />
-			) : null}
-			{!query.isLoading && !query.isError && projects.length > 0 ? (
+			) : (
 				<div className="project-grid">
-					{projects.map((project: Project) => (
+					{projects.map((project) => (
 						<ProjectCard key={project.id} project={project} />
 					))}
 				</div>
-			) : null}
+			)}
 		</Stack>
 	);
 }

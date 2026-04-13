@@ -1,25 +1,25 @@
 import { ProjectFilter } from "~/features/project-filter";
 import type {
+	Project,
 	ProjectCategory,
-	ProjectListResponse,
 } from "~/shared/api/generated/models";
 
 type Props = {
 	categories: ProjectCategory[];
-	initialCategory?: string;
-	projects: ProjectListResponse["data"];
+	activeCategory?: string;
+	projects: Project[];
 };
 
 export function ProjectListSection({
 	categories,
-	initialCategory,
+	activeCategory,
 	projects,
 }: Props) {
 	return (
 		<ProjectFilter
 			categories={categories}
-			initialCategory={initialCategory}
-			initialProjects={projects}
+			activeCategory={activeCategory}
+			projects={projects}
 		/>
 	);
 }
