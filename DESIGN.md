@@ -1,80 +1,85 @@
 # Design System — Portfolio
 
-> Mantine UI · React Router · White-base · Vibrant accents
+> Mantine UI · React Router · White-base · Rich Blue · Professional
 
 ---
 
 ## 1. Design Philosophy
 
-A clean, light, and confident portfolio that lets the work speak first.
-White space provides breathing room; vivid accent colors draw the eye to actions and highlights without overwhelming the content.
-Every component should feel precise and intentional — no decoration for decoration's sake.
+A professional, refined portfolio built on trust and clarity.
+White background provides clean canvas; rich blue accents convey confidence and technical expertise.
+Black text ensures maximum readability. Every component is intentional and purposeful.
+No dark mode — consistent light theme across all devices.
 
 ---
 
 ## 2. Color Palette
 
-### Foundation
+### Foundation (Neutral)
 
 | Token          | Value                | Usage                                    |
 | -------------- | -------------------- | ---------------------------------------- |
 | `background`   | `#FFFFFF`            | Page background, card surfaces           |
-| `surface`      | `#F8F9FA`            | Subtle section backgrounds, code blocks  |
+| `surface`      | `#F8F9FA`            | Subtle section backgrounds               |
 | `border`       | `#DEE2E6`            | Dividers, card borders, input borders    |
-| `text-primary` | `#212529`            | Headings, body text                      |
-| `text-muted`   | `#868E96`            | Captions, secondary labels, timestamps   |
+| `text-primary` | `#212529` (Black)    | Headings, body text                      |
+| `text-muted`   | `#868E96`            | Captions, secondary labels               |
 
-### Accent — Primary (Blue)
+### Primary (Rich Blue Scale)
 
-| Token              | Value                | Usage                                      |
-| ------------------ | -------------------- | ------------------------------------------ |
-| `primary`          | `#228BE6`            | CTAs, active nav, links, focus rings       |
-| `primary-light`    | `#D0EBFF`            | Badge backgrounds, hover tints             |
-| `primary-dark`     | `#1971C2`            | Hover/pressed state for primary buttons    |
+| Level    | Value                | Usage                                      |
+| -------- | -------------------- | ------------------------------------------ |
+| Blue 50  | `#EBF4FF`            | Lightest backgrounds, subtle accents       |
+| Blue 100 | `#D6E8FF`            | Badge backgrounds, hover tints             |
+| Blue 200 | `#B3D7FF`            | Borders on active elements                 |
+| Blue 300 | `#80BFFF`            | Disabled interactive elements              |
+| Blue 400 | `#4DA6FF`            | Hover backgrounds                          |
+| Blue 500 | `#1A8CFF`            | Primary CTAs, links, active states         |
+| Blue 600 | `#0066CC`            | Primary button hover, strong emphasis      |
+| Blue 700 | `#0052A3`            | Active/pressed button states               |
+| Blue 800 | `#003D7A`            | Deep headers, strong accents               |
+| Blue 900 | `#002952`            | Darkest blue, maximum emphasis             |
 
-### Accent — Secondary (Lime / Yellow-Green)
-
-| Token              | Value                | Usage                                          |
-| ------------------ | -------------------- | ---------------------------------------------- |
-| `secondary`        | `#82C91E`            | Skill badges, status indicators, highlights    |
-| `secondary-light`  | `#E9FAC8`            | Tag backgrounds, subtle callouts               |
-| `secondary-dark`   | `#66A80F`            | Hover/pressed state for secondary elements     |
-
-### Accent — Supporting
+### Accent Colors (Functional)
 
 | Token       | Value                | Usage                                        |
 | ----------- | -------------------- | -------------------------------------------- |
-| `cyan`      | `#15AABF`            | Technology badges, info callouts             |
-| `violet`    | `#7950F2`            | Category badges, decorative accents          |
-| `orange`    | `#FD7E14`            | Warnings, "in progress" status               |
-| `red`       | `#FA5252`            | Errors, destructive actions, validation      |
-| `teal`      | `#12B886`            | Success states, "completed" indicators       |
+| `success`   | `#16A34A`            | Success states, status indicators            |
+| `warning`   | `#D97706`            | Warnings, attention needed                   |
+| `error`     | `#DC2626`            | Errors, destructive actions                  |
+| `info`      | `#1A8CFF`            | Information, tips — same as primary blue     |
+| `indigo`    | `#4338CA`            | Advanced skill level, secondary accent       |
 
 ### Gradient Presets
 
 ```
-hero-gradient:    linear-gradient(135deg, #228BE6 0%, #15AABF 50%, #82C91E 100%)
-card-accent:      linear-gradient(135deg, #228BE6 0%, #7950F2 100%)
-badge-highlight:  linear-gradient(90deg, #82C91E 0%, #15AABF 100%)
+hero-gradient:    radial-gradient(ellipse 60% 40% at 50% 10%, rgba(26, 140, 255, 0.07), transparent 70%)
+section-accent:   linear-gradient(90deg, #1A8CFF 0%, #0066CC 100%)
+button-hover:     linear-gradient(135deg, #0066CC 0%, #0052A3 100%)
 ```
 
-Use gradients sparingly — hero section background accents, decorative borders on featured cards, and hover states only.
+Use gradients sparingly — hero section background, special section accents only.
 
 ---
 
 ## 3. Typography
 
-Mantine's default system font stack (`-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, ...`).
+**Font Family:** `'Noto Serif Japanese', 'Noto Serif', serif`
+
+All text uses Noto Serif Japanese for a professional, refined aesthetic that works perfectly with Japanese and Latin characters.
 
 | Role        | Weight     | Size          | Letter-spacing | Usage                          |
 | ----------- | ---------- | ------------- | -------------- | ------------------------------ |
-| Display     | 800        | 48–64px       | -0.02em        | Hero heading only              |
-| H1          | 700        | 36px          | -0.01em        | Page titles                    |
-| H2          | 700        | 28px          | -0.01em        | Section headings               |
-| H3          | 600        | 22px          | 0              | Card titles, sub-sections      |
-| Body        | 400        | 16px          | 0              | Paragraphs, descriptions       |
-| Body Small  | 400        | 14px          | 0              | Captions, metadata, timestamps |
-| Label       | 600        | 12px          | 0.04em         | Overline labels, badge text    |
+| Display     | 800        | 48–72px       | -0.02em        | Hero heading only              |
+| H1          | 700        | 48px          | -0.01em        | Page titles                    |
+| H2          | 700        | 36px          | -0.01em        | Section headings               |
+| H3          | 600        | 30px          | 0              | Subsection titles              |
+| H4          | 600        | 24px          | 0              | Card titles                    |
+| H5          | 600        | 20px          | 0              | Small headings                 |
+| Body Large  | 400        | 18px          | 0              | Lead paragraphs                |
+| Body        | 400        | 16px          | 0              | Body text, descriptions        |
+| Body Small  | 400        | 14px          | 0              | Captions, metadata             |
+| Caption     | 500        | 12px          | 0.02em         | Labels, badge text             |
 
 ---
 
@@ -159,8 +164,8 @@ Category label:  H3, weight 600, with a colored left-border accent (4px, primary
 Skill items:     Grid of cards or horizontal badge-rows
 Each skill:      Technology icon + name + proficiency indicator
 Proficiency:     Mantine Progress component, color mapped to level:
-                 Expert → primary, Advanced → cyan, Intermediate → secondary (lime)
-                 Or: simple dot/star rating, max 5
+                 Expert → blue (primary), Advanced → indigo, Intermediate → blue,
+                 Beginner → gray
 ```
 
 ### 5.6 Experience Timeline
@@ -190,7 +195,7 @@ Validation:      Error text in red, size xs, below field
                  Input border turns red on error
 Submit button:   Full-width, variant="filled", color="blue", size="lg", radius="md"
                  Loading state → Loader inside button, disabled
-Success:         Alert color="teal", icon check-circle
+Success:         Alert color="green", icon check-circle
                  "Message sent successfully" with fade-in
 Error:           Alert color="red", icon alert-circle
 ```
@@ -340,7 +345,7 @@ export const theme = createTheme({
     // Use Mantine's built-in blue, lime, cyan, violet, orange, red, teal
     // Override specific shades if needed
   },
-  fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif',
+  fontFamily: "'Noto Serif Japanese', 'Noto Serif', serif",
   headings: {
     fontWeight: '700',
   },
