@@ -356,6 +356,12 @@ function HomeIntroScreen({ active, onComplete }: HomeIntroScreenProps) {
 					{COUNTDOWN_STEPS[countIndex]}
 				</motion.div>
 			</AnimatePresence>
+			<motion.div
+				className="home-intro__line"
+				initial={{ scaleX: 0, opacity: 0 }}
+				animate={{ scaleX: 1, opacity: 1 }}
+				transition={{ duration: 0.65, delay: 0.2, ease: "easeOut" }}
+			/>
 			<motion.p
 				className="home-intro__caption"
 				initial={{ opacity: 0, y: 10 }}
